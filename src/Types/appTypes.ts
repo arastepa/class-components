@@ -14,4 +14,5 @@ export interface Planets {
 export interface State {
   value: string;
   planets: Planets[];
+  prevSearch: string;
 }

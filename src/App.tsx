@@ -11,7 +11,17 @@ export default class App extends Component<PropsApp, State> {
     this.state = {
       value: '',
       planets: [],
+      prevSearch: '',
     };
+  }
+  componentDidMount() {
+    const previous = localStorage.getItem('previous');
+    if (previous) {
+      this.setState({
+        prevSearch: previous,
+      });
+    }
+    console.log(previous);
   }
   handleSubmit = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
@@ -24,7 +34,7 @@ export default class App extends Component<PropsApp, State> {
       } else {
         console.log(this.state.value);
         response = await getPlanets(
-          `https://swapi.dev/api/planets/?search=${this.state.value}&page=1`,
+          `https://swapi.dev/api/planets/?search=${this.state.value.trim()}&page=1`,
         );
       }
       if (response !== undefined) {
@@ -40,11 +50,13 @@ export default class App extends Component<PropsApp, State> {
     this.setState({
       value: val,
     });
+    localStorage.setItem('previous', val);
   };
   render() {
     return (
       <div className={styles.container}>
         <Search
+          prevSearch={this.state.prevSearch}
           onHandleSubmit={this.handleSubmit}
           onHandleChange={this.handleChange}
         />
