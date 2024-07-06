@@ -1,35 +1,56 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import { Component } from 'react';
+import Search from './components/Search';
+import Main from './components/Main';
+import styles from './Styles/app.module.css';
+import { PropsApp, State } from './Types/appTypes';
+import { getPlanets } from './Services/getPlanets';
 
-function App() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+export default class App extends Component<PropsApp, State> {
+  constructor(props: PropsApp) {
+    super(props);
+    this.state = {
+      value: '',
+      planets: [],
+    };
+  }
+  handleSubmit = async (ev: React.FormEvent<HTMLFormElement>) => {
+    ev.preventDefault();
+    try {
+      let response;
+      if (this.state.value === '') {
+        response = await getPlanets(
+          `https://swapi.dev/api/planets/?search=&page=1`,
+        );
+      } else {
+        console.log(this.state.value);
+        response = await getPlanets(
+          `https://swapi.dev/api/planets/?search=${this.state.value}&page=1`,
+        );
+      }
+      if (response !== undefined) {
+        this.setState({
+          planets: response,
+        });
+      }
+    } catch (error) {
+      return null;
+    }
+  };
+  handleChange = (val: string) => {
+    this.setState({
+      value: val,
+    });
+  };
+  render() {
+    return (
+      <div className={styles.container}>
+        <Search
+          onHandleSubmit={this.handleSubmit}
+          onHandleChange={this.handleChange}
+        />
+        <hr />
+        <Main planets={this.state.planets} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+    );
+  }
 }
-
-export default App;
