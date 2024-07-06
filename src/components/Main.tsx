@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { Planets } from '../Types/appTypes';
+import styles from '../Styles/app.module.css';
 
 export default class Main extends Component<{ planets: Planets[] }> {
   constructor(props: { planets: Planets[] }) {
@@ -8,7 +9,7 @@ export default class Main extends Component<{ planets: Planets[] }> {
   render() {
     return (
       <div>
-        <ul>
+        <ul className={styles.main}>
           {this.props.planets.map((planet: Planets, index: number) => {
             return (
               <li key={index}>

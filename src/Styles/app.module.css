@@ -4,6 +4,15 @@
     justify-content: space-between;
     align-items: center;
     gap: 50px;
+   
+}
+
+body {
+    background-image: url('../assets/background.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 90vh;
 }
 
 .input {
@@ -35,6 +44,15 @@ ul {
 }
 
 li {
-    border: 5px solid black;
+    border: 2px solid black;
     width: 200px;
+    padding: 10px;
+}
+
+.main {
+    background-color: #FCFCFC;
+    padding: 2%;
+    width: 80%;
+    margin: auto;
+    border-radius: 10px;
 }

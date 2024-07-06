@@ -27,14 +27,17 @@ export default class App extends Component<PropsApp, State> {
     ev.preventDefault();
     try {
       let response;
-      if (this.state.value === '') {
+      if (this.state.value === '' && this.state.prevSearch === '') {
         response = await getPlanets(
           `https://swapi.dev/api/planets/?search=&page=1`,
         );
-      } else {
-        console.log(this.state.value);
+      } else if (this.state.value !== '') {
         response = await getPlanets(
           `https://swapi.dev/api/planets/?search=${this.state.value.trim()}&page=1`,
+        );
+      } else if (this.state.prevSearch !== '') {
+        response = await getPlanets(
+          `https://swapi.dev/api/planets/?search=${this.state.prevSearch.trim()}&page=1`,
         );
       }
       if (response !== undefined) {
@@ -49,6 +52,7 @@ export default class App extends Component<PropsApp, State> {
   handleChange = (val: string) => {
     this.setState({
       value: val,
+      prevSearch: '',
     });
     localStorage.setItem('previous', val);
   };
@@ -56,7 +60,6 @@ export default class App extends Component<PropsApp, State> {
     return (
       <div className={styles.container}>
         <Search
-          prevSearch={this.state.prevSearch}
           onHandleSubmit={this.handleSubmit}
           onHandleChange={this.handleChange}
         />

@@ -4,7 +4,6 @@ import styles from '../Styles/app.module.css';
 interface SearchProps {
   onHandleSubmit: (ev: React.FormEvent<HTMLFormElement>) => void;
   onHandleChange: (value: string) => void;
-  prevSearch: string;
 }
 
 export default class Search extends Component<SearchProps> {
@@ -14,11 +13,16 @@ export default class Search extends Component<SearchProps> {
         <form onSubmit={this.props.onHandleSubmit}>
           <input
             type="text"
-            defaultValue={this.props.prevSearch}
-            placeholder="type text"
+            defaultValue={
+              localStorage.getItem('previous')
+                ? `${localStorage.getItem('previous')}`
+                : ''
+            }
             onChange={(val) => {
+              console.log('zzz');
               this.props.onHandleChange(val.target.value);
             }}
+            placeholder="type name of the planet"
             className={styles.input}
           />
           <input type="submit" value="find" />
