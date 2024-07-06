@@ -23,6 +23,7 @@ body {
 
 .search {
     display: flex;
+    margin-top: -40px;
     gap: 10px;
 }
 
@@ -55,4 +56,14 @@ li {
     width: 80%;
     margin: auto;
     border-radius: 10px;
+}
+
+.errorBtn {
+    background-color: red;
+    height: 40px;
+    cursor: pointer;
+}
+
+.errorBoundary {
+    background-color: #FCFCFC;
 }

@@ -4,6 +4,8 @@ import Main from './components/Main';
 import styles from './Styles/app.module.css';
 import { PropsApp, State } from './Types/appTypes';
 import { getPlanets } from './Services/getPlanets';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import ErrorBtn from './ErrorBoundary/ErrorBtn';
 
 export default class App extends Component<PropsApp, State> {
   constructor(props: PropsApp) {
@@ -58,14 +60,17 @@ export default class App extends Component<PropsApp, State> {
   };
   render() {
     return (
-      <div className={styles.container}>
-        <Search
-          onHandleSubmit={this.handleSubmit}
-          onHandleChange={this.handleChange}
-        />
-        <hr />
-        <Main planets={this.state.planets} />
-      </div>
+      <ErrorBoundary>
+        <div className={styles.container}>
+          <ErrorBtn />
+          <Search
+            onHandleSubmit={this.handleSubmit}
+            onHandleChange={this.handleChange}
+          />
+          <hr />
+          <Main planets={this.state.planets} />
+        </div>
+      </ErrorBoundary>
     );
   }
 }
