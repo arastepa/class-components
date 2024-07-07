@@ -15,20 +15,36 @@ body {
     min-height: 90vh;
 }
 
+@media (max-width: 900px)
+{
+    body {
+        min-height: 100vh;
+    }
+}
+
 .input {
     border-radius: 10px;
     height: 30px;
-    width: 300px;
+    width: 80%;
+    min-width: 200px;
 }
 
 .search {
     display: flex;
     margin-top: -40px;
     gap: 10px;
+    width: 30%;
+    min-width: fit-content;
+
+}
+
+form {
+    width: 100%;
 }
 
 input[type="submit"] {
-    width: 50px;
+    width: 15%;
+    min-width: 40px;
     height: 40px;
     background-color: rgb(58, 58, 145);
     color: white;
