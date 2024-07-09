@@ -15,4 +15,5 @@ export interface State {
   value: string;
   planets: Planets[];
   prevSearch: string;
+  isLoading: boolean;
 }

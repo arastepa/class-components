@@ -14,20 +14,27 @@ export default class App extends Component<PropsApp, State> {
       value: '',
       planets: [],
       prevSearch: '',
+      isLoading: false,
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
     const previous = localStorage.getItem('previous');
     if (previous) {
-      this.setState({
-        prevSearch: previous,
-      });
-    }
-    console.log(previous);
+      this.setState(
+        {
+          prevSearch: previous,
+        },
+        async () => {
+          await this.getResponse();
+        },
+      );
+    } else await this.getResponse();
   }
-  handleSubmit = async (ev: React.FormEvent<HTMLFormElement>) => {
-    ev.preventDefault();
+  getResponse = async () => {
     try {
+      this.setState({
+        isLoading: true,
+      });
       let response;
       if (this.state.value === '' && this.state.prevSearch === '') {
         response = await getPlanets(
@@ -47,6 +54,21 @@ export default class App extends Component<PropsApp, State> {
           planets: response,
         });
       }
+      this.setState({
+        isLoading: false,
+      });
+    } catch (error) {
+      this.setState({
+        isLoading: false,
+      });
+      return null;
+    }
+  };
+
+  handleSubmit = async (ev: React.FormEvent<HTMLFormElement>) => {
+    ev.preventDefault();
+    try {
+      await this.getResponse();
     } catch (error) {
       return null;
     }
@@ -68,7 +90,11 @@ export default class App extends Component<PropsApp, State> {
             onHandleChange={this.handleChange}
           />
           <hr />
-          <Main planets={this.state.planets} />
+          {this.state.isLoading ? (
+            <div className={styles.spinner}></div>
+          ) : (
+            <Main planets={this.state.planets} />
+          )}
         </div>
       </ErrorBoundary>
     );

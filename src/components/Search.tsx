@@ -19,7 +19,6 @@ export default class Search extends Component<SearchProps> {
                 : ''
             }
             onChange={(val) => {
-              console.log('zzz');
               this.props.onHandleChange(val.target.value);
             }}
             placeholder="type name of the planet"

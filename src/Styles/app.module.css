@@ -84,3 +84,20 @@ li {
 .errorBoundary {
     background-color: #FCFCFC;
 }
+  
+.spinner {
+    border: 4px solid rgba(255,255,255);
+    border-left-color: #7983ff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+to {
+    transform: rotate(360deg);
+}
+}
+  
