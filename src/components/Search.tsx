@@ -21,7 +21,6 @@ export default class Search extends Component<SearchProps> {
             onChange={(val) => {
               this.props.onHandleChange(val.target.value);
             }}
-            placeholder="type name of the planet"
             className={styles.input}
           />
           <input type="submit" value="find" />

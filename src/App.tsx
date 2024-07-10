@@ -6,6 +6,7 @@ import { PropsApp, State } from './Types/appTypes';
 import { getPlanets } from './Services/getPlanets';
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import ErrorBtn from './ErrorBoundary/ErrorBtn';
+import Header from './Header/Header';
 
 export default class App extends Component<PropsApp, State> {
   constructor(props: PropsApp) {
@@ -84,6 +85,7 @@ export default class App extends Component<PropsApp, State> {
     return (
       <ErrorBoundary>
         <div className={styles.container}>
+          <Header />
           <ErrorBtn />
           <Search
             onHandleSubmit={this.handleSubmit}

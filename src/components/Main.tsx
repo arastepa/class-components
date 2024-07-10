@@ -14,7 +14,7 @@ export default class Main extends Component<{ planets: Planets[] }> {
             return (
               <li key={index}>
                 <div>
-                  <p>Name: {planet.name}</p>
+                  <p className={styles.title}>Name: {planet.name}</p>
                   <p>Gravity: {planet.gravity}</p>
                   <p>Population: {planet.population}</p>
                   <p>Climate: {planet.climate}</p>

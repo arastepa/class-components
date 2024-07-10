@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=Ga+Maamli&family=Permanent+Marker&display=swap');
+
 .container {
     display: flex;
     flex-direction: column;
@@ -8,11 +10,14 @@
 }
 
 body {
+    font-family: "Antonio", sans-serif;;
     background-image: url('../assets/background.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     min-height: 90vh;
+    margin: 0;
+    padding: 0;
 }
 
 @media (max-width: 900px)
@@ -23,8 +28,8 @@ body {
 }
 
 .input {
-    border-radius: 10px;
-    height: 30px;
+    border-radius: 5px;
+    height: 40px;
     width: 80%;
     min-width: 200px;
 }
@@ -32,7 +37,6 @@ body {
 .search {
     display: flex;
     margin-top: -40px;
-    gap: 10px;
     width: 30%;
     min-width: fit-content;
 
@@ -40,16 +44,20 @@ body {
 
 form {
     width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 input[type="submit"] {
     width: 15%;
-    min-width: 40px;
+    min-width: 60px;
     height: 40px;
-    background-color: rgb(58, 58, 145);
+    background-color: #4C8CD7;
     color: white;
-    border-radius: 10px;
+    border-radius: 5px;
     border-color: aliceblue;
+    border-width: 1px;
     cursor: pointer;
 }
 
@@ -61,14 +69,18 @@ ul {
     gap: 10px;
 }
 
+.title {
+    font-weight: bold;
+}
+
 li {
-    border: 2px solid black;
+    border: 3px solid black;
     width: 200px;
     padding: 10px;
 }
 
 .main {
-    background-color: #FCFCFC;
+    background-color: #F9FAFB;
     padding: 2%;
     width: 80%;
     margin: auto;
@@ -76,9 +88,11 @@ li {
 }
 
 .errorBtn {
-    background-color: red;
+    background-color: #b30000;
     height: 40px;
+    font-family: "Antonio", sans-serif;;
     cursor: pointer;
+    color: white;
 }
 
 .errorBoundary {
@@ -101,3 +115,11 @@ to {
 }
 }
   
+.header {
+    width: 100%;
+    background-color: #110C13;
+    margin: 0;
+    padding: 20px 0;
+    opacity: 0.7;
+
+}
