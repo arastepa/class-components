@@ -2,8 +2,6 @@ export interface Props {
   onHandleSubmit: () => void;
 }
 
-export interface PropsApp {}
-
 export interface Planets {
   name: string;
   climate: string;
