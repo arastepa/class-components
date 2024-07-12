@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { getPageCount } from './Services/getPlanets';
 
 const App = () => {
-  const [pageCount, setPageCount] = useState<number | null>(null);
+  const [pageCount, setPageCount] = useState<number>(0);
   useEffect(() => {
     getPageCount().then((result) => {
       if (result) setPageCount(result);
@@ -18,11 +18,15 @@ const App = () => {
       <Routes>
         <Route
           path="/"
-          element={pageCount && <MainPage pageCount={pageCount} />}
+          element={
+            <MainPage pageCount={pageCount} setPageCount={setPageCount} />
+          }
         />
         <Route
           path="/page/:id"
-          element={pageCount && <MainPage pageCount={pageCount} />}
+          element={
+            <MainPage pageCount={pageCount} setPageCount={setPageCount} />
+          }
         />
         <Route path="*" element={<ErrorPage />} />
       </Routes>

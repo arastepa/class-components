@@ -3,14 +3,17 @@ import Search from '../components/Search';
 import Main from '../components/Main';
 import styles from '../Styles/app.module.css';
 import { Planets } from '../Types/appTypes';
-import { getPlanets } from '../Services/getPlanets';
+import { getPageCount, getPlanets } from '../Services/getPlanets';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import ErrorBtn from '../ErrorBoundary/ErrorBtn';
 import React from 'react';
 import useHandleLS from '../Hooks/useHandleLS';
 import { useParams } from 'react-router-dom';
 
-const App = (props: { pageCount: number }) => {
+const App = (props: {
+  pageCount: number;
+  setPageCount: (x: number) => void;
+}) => {
   const [search, setSearch] = useState('');
   const [planets, setPlanets] = useState<Planets[]>([]);
   const [isLoading, setIsloading] = useState(false);
@@ -25,18 +28,22 @@ const App = (props: { pageCount: number }) => {
         `https://swapi.dev/api/planets/?search=&page=${id === undefined ? 1 : id}`,
       ).then((response) => {
         setIsloading(false);
+        getPageCount().then((res) => {
+          if (res) props.setPageCount(res);
+        });
         if (response) setPlanets(response);
       });
     } else if (previous && search === '') {
       setIsloading(true);
       getPlanets(
-        `https://swapi.dev/api/planets/?search=${previous.trim()}&page=${id === undefined ? 1 : id}`,
+        `https://swapi.dev/api/planets/?search=${previous.trim()}`,
       ).then((response) => {
         setIsloading(false);
         if (response) setPlanets(response);
+        props.setPageCount(response ? Math.ceil(response.length / 10) : 0);
       });
     }
-  }, [search, id]);
+  }, [search, id, props]);
 
   async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
@@ -50,20 +57,22 @@ const App = (props: { pageCount: number }) => {
   const getResponse = async () => {
     try {
       setIsloading(true);
-      let response;
+      let response: Planets[] | undefined;
       if (search === '' && prevSearch === '') {
-        response = await getPlanets(
-          `https://swapi.dev/api/planets/?search=&page=${id === undefined ? 1 : id}`,
-        );
+        response = await getPlanets(`https://swapi.dev/api/planets/`);
+        await getPageCount();
       } else if (search !== '') {
         response = await getPlanets(
-          `https://swapi.dev/api/planets/?search=${search.trim()}&page=${id === undefined ? 1 : id}`,
+          `https://swapi.dev/api/planets/?search=${search.trim()}`,
         );
+        props.setPageCount(response ? Math.ceil(response.length / 10) : 0);
       } else if (prevSearch !== '') {
         response = await getPlanets(
-          `https://swapi.dev/api/planets/?search=${prevSearch.trim()}&page=${id === undefined ? 1 : id}`,
+          `https://swapi.dev/api/planets/?search=${prevSearch.trim()}`,
         );
+        props.setPageCount(response ? Math.ceil(response.length / 10) : 0);
       }
+      console.log(response);
       if (response !== undefined) {
         setPlanets(response);
       }
