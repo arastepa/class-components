@@ -5,9 +5,7 @@ const UseHandleLS = () => {
     localStorage.getItem('previous') ?? '',
   );
   useEffect(() => {
-    return () => {
-      localStorage.setItem('previous', prevSearch);
-    };
+    localStorage.setItem('previous', prevSearch);
   }, [prevSearch]);
   return { prevSearch, setPrevSearch };
 };
