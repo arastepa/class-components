@@ -18,7 +18,6 @@ const Search = (props: SearchProps) => {
               : ''
           }
           onChange={(val) => {
-            // console.log(val.target.value);
             props.onHandleChange(val.target.value);
           }}
           className={styles.input}

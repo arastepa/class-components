@@ -8,33 +8,35 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import ErrorBtn from '../ErrorBoundary/ErrorBtn';
 import React from 'react';
 import useHandleLS from '../Hooks/useHandleLS';
+import { useParams } from 'react-router-dom';
 
-const App = () => {
+const App = (props: { pageCount: number }) => {
   const [search, setSearch] = useState('');
   const [planets, setPlanets] = useState<Planets[]>([]);
   const [isLoading, setIsloading] = useState(false);
   const { prevSearch, setPrevSearch } = useHandleLS();
+  const { id } = useParams();
 
   useEffect(() => {
     const previous = localStorage.getItem('previous');
     if (search === '' && previous === '') {
       setIsloading(true);
-      getPlanets(`https://swapi.dev/api/planets/?search=&page=1`).then(
-        (response) => {
-          setIsloading(false);
-          if (response) setPlanets(response);
-        },
-      );
+      getPlanets(
+        `https://swapi.dev/api/planets/?search=&page=${id === undefined ? 1 : id}`,
+      ).then((response) => {
+        setIsloading(false);
+        if (response) setPlanets(response);
+      });
     } else if (previous && search === '') {
       setIsloading(true);
       getPlanets(
-        `https://swapi.dev/api/planets/?search=${previous.trim()}&page=1`,
+        `https://swapi.dev/api/planets/?search=${previous.trim()}&page=${id === undefined ? 1 : id}`,
       ).then((response) => {
         setIsloading(false);
         if (response) setPlanets(response);
       });
     }
-  }, [search]);
+  }, [search, id]);
 
   async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
@@ -51,15 +53,15 @@ const App = () => {
       let response;
       if (search === '' && prevSearch === '') {
         response = await getPlanets(
-          `https://swapi.dev/api/planets/?search=&page=1`,
+          `https://swapi.dev/api/planets/?search=&page=${id === undefined ? 1 : id}`,
         );
       } else if (search !== '') {
         response = await getPlanets(
-          `https://swapi.dev/api/planets/?search=${search.trim()}&page=1`,
+          `https://swapi.dev/api/planets/?search=${search.trim()}&page=${id === undefined ? 1 : id}`,
         );
       } else if (prevSearch !== '') {
         response = await getPlanets(
-          `https://swapi.dev/api/planets/?search=${prevSearch.trim()}&page=1`,
+          `https://swapi.dev/api/planets/?search=${prevSearch.trim()}&page=${id === undefined ? 1 : id}`,
         );
       }
       if (response !== undefined) {
@@ -86,7 +88,7 @@ const App = () => {
         {isLoading ? (
           <div className={styles.spinner}></div>
         ) : (
-          <Main planets={planets} />
+          <Main pageCount={props.pageCount} planets={planets} />
         )}
       </div>
     </ErrorBoundary>

@@ -1,9 +1,10 @@
 import { Planets } from '../Types/appTypes';
 import styles from '../Styles/app.module.css';
+import PageNumbers from './PageNumbers';
 
-const Main = (props: { planets: Planets[] }) => {
+const Main = (props: { pageCount: number; planets: Planets[] }) => {
   return (
-    <div>
+    <div className={styles.mainContainer}>
       <ul className={styles.main}>
         {props.planets.map((planet: Planets, index: number) => {
           return (
@@ -18,6 +19,7 @@ const Main = (props: { planets: Planets[] }) => {
           );
         })}
       </ul>
+      <PageNumbers pageCount={props.pageCount} />
     </div>
   );
 };

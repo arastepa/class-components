@@ -80,12 +80,43 @@ li {
 }
 
 .main {
-    background-color: #F9FAFB;
-    padding: 2%;
-    width: 80%;
     margin: auto;
     border-radius: 10px;
 }
+
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    background-color: #F9FAFB;
+    padding: 2%;
+    width: 80%;
+    
+}
+
+.pageNumber {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #110C13;
+
+}
+
+.active {
+    color: #4C8CD7;
+}
+
+.pageNumber:hover {
+   
+    background-color: #110C13;
+    color: white;    
+}
+
 
 .errorBtn {
     background-color: #b30000;
@@ -131,4 +162,10 @@ to {
     color: white;
     min-height: 80vh;
     font-size: 2rem;
+}
+
+.pages {
+    color: black;
+    display: flex;
+    gap: 50px;
 }
