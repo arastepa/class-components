@@ -79,6 +79,12 @@ li {
     padding: 10px;
 }
 
+li:hover {
+    border: 3px solid #4C8CD7;
+    cursor: pointer;
+    
+}
+
 .main {
     margin: auto;
     border-radius: 10px;
@@ -92,7 +98,16 @@ li {
     background-color: #F9FAFB;
     padding: 2%;
     width: 80%;
-    
+}
+
+.detailsMain {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.details {
+    width: 100%;
 }
 
 .pageNumber {

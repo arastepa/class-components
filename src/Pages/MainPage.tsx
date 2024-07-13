@@ -10,7 +10,7 @@ import React from 'react';
 import useHandleLS from '../Hooks/useHandleLS';
 import { useParams } from 'react-router-dom';
 
-const App = (props: {
+const MainPage = (props: {
   pageCount: number;
   setPageCount: (x: number) => void;
 }) => {
@@ -104,4 +104,4 @@ const App = (props: {
   );
 };
 
-export default App;
+export default MainPage;

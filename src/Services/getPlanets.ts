@@ -1,4 +1,4 @@
-import { Planets } from '../Types/appTypes';
+import { PlanetDetails, Planets } from '../Types/appTypes';
 
 export const getPlanets = async (url: string) => {
   const requestOptions = {
@@ -36,6 +36,20 @@ export const getPageCount = async () => {
     const planets: Planets[] = result.results;
     const pageCount = count / planets.length;
     return pageCount;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getPlanet = async (url: string) => {
+  const requestOptions = {
+    method: 'GET',
+  };
+
+  try {
+    const response = await fetch(`${url}`, requestOptions);
+    const result: PlanetDetails = await response.json();
+    return result;
   } catch (error) {
     console.error(error);
   }
