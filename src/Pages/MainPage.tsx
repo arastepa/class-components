@@ -17,13 +17,13 @@ const MainPage = (props: {
   const [search, setSearch] = useState('');
   const [planets, setPlanets] = useState<Planets[]>([]);
   const [isLoading, setIsloading] = useState(false);
-  const { prevSearch, setPrevSearch } = useHandleLS();
+  const { setPrevSearch } = useHandleLS();
   const { id } = useParams();
 
   useEffect(() => {
     const previous = localStorage.getItem('previous');
-    if (search === '' && previous === '') {
-      setIsloading(true);
+    setIsloading(true);
+    if (previous === '') {
       getPlanets(
         `https://swapi.dev/api/planets/?search=&page=${id === undefined ? 1 : id}`,
       ).then((response) => {
@@ -33,8 +33,7 @@ const MainPage = (props: {
         });
         if (response) setPlanets(response);
       });
-    } else if (previous && search === '') {
-      setIsloading(true);
+    } else if (previous) {
       getPlanets(
         `https://swapi.dev/api/planets/?search=${previous.trim()}`,
       ).then((response) => {
@@ -43,22 +42,24 @@ const MainPage = (props: {
         props.setPageCount(response ? Math.ceil(response.length / 10) : 0);
       });
     }
-  }, [search, id, props]);
+  }, [id, props]);
 
   async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
     try {
-      await getResponse();
+      setPrevSearch(search);
+      const prevoius = search;
+      await getResponse(prevoius);
     } catch (error) {
       return null;
     }
   }
 
-  const getResponse = async () => {
+  const getResponse = async (prevoius: string) => {
     try {
       setIsloading(true);
       let response: Planets[] | undefined;
-      if (search === '' && prevSearch === '') {
+      if (search === '' && prevoius === '') {
         response = await getPlanets(`https://swapi.dev/api/planets/`);
         await getPageCount();
       } else if (search !== '') {
@@ -66,9 +67,9 @@ const MainPage = (props: {
           `https://swapi.dev/api/planets/?search=${search.trim()}`,
         );
         props.setPageCount(response ? Math.ceil(response.length / 10) : 0);
-      } else if (prevSearch !== '') {
+      } else if (prevoius !== '') {
         response = await getPlanets(
-          `https://swapi.dev/api/planets/?search=${prevSearch.trim()}`,
+          `https://swapi.dev/api/planets/?search=${prevoius.trim()}`,
         );
         props.setPageCount(response ? Math.ceil(response.length / 10) : 0);
       }
@@ -85,7 +86,6 @@ const MainPage = (props: {
 
   const handleChange = (val: string) => {
     setSearch(val);
-    setPrevSearch(val);
   };
 
   return (
