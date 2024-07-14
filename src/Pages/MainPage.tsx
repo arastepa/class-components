@@ -73,7 +73,6 @@ const MainPage = (props: {
         );
         props.setPageCount(response ? Math.ceil(response.length / 10) : 0);
       }
-      console.log(response);
       if (response !== undefined) {
         setPlanets(response);
       }
@@ -95,7 +94,7 @@ const MainPage = (props: {
         <Search onHandleSubmit={handleSubmit} onHandleChange={handleChange} />
         <hr />
         {isLoading ? (
-          <div className={styles.spinner}></div>
+          <div className={styles.spinner} data-testid="spinner"></div>
         ) : (
           <Main pageCount={props.pageCount} planets={planets} />
         )}

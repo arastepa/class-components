@@ -21,6 +21,7 @@ const Search = (props: SearchProps) => {
             props.onHandleChange(val.target.value);
           }}
           className={styles.input}
+          name="search"
         />
         <input type="submit" value="find" />
       </form>

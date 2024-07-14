@@ -27,7 +27,7 @@ const Main = (props: { pageCount: number; planets: Planets[] }) => {
   return (
     <>
       {isLoading ? (
-        <div className={styles.spinner} data-testid="spinner"></div>
+        <div className={styles.spinner}></div>
       ) : (
         <div className={styles.mainContainer}>
           <div className={styles.detailsMain}>
