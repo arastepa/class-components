@@ -22,6 +22,7 @@ const Search = (props: SearchProps) => {
           }}
           className={styles.input}
           name="search"
+          data-testid="search"
         />
         <input type="submit" value="find" />
       </form>
