@@ -20,7 +20,7 @@ describe('getPlanets', () => {
       ],
     };
 
-    (global.fetch as Mock) = vi.fn(() =>
+    (globalThis.fetch as Mock) = vi.fn(() =>
       Promise.resolve({
         json: () => Promise.resolve(mockResponse),
       } as Response),

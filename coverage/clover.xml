@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1720999762152" clover="3.2.0">
-  <project timestamp="1720999762152" name="All files">
+<coverage generated="1721002609793" clover="3.2.0">
+  <project timestamp="1721002609793" name="All files">
     <metrics statements="396" coveredstatements="319" conditionals="54" coveredconditionals="48" methods="28" coveredmethods="22" elements="478" coveredelements="389" complexity="0" loc="396" ncloc="396" packages="7" files="14" classes="14"/>
     <package name="src">
       <metrics statements="56" coveredstatements="47" conditionals="4" coveredconditionals="3" methods="3" coveredmethods="2"/>
-      <file name="App.tsx" path="/home/arastepa/Desktop/exclude/src/App.tsx">
+      <file name="App.tsx" path="/home/arastepa/Desktop/new/src/App.tsx">
         <metrics statements="17" coveredstatements="16" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -24,7 +24,7 @@
         <line num="18" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
       </file>
-      <file name="AppRoutes.tsx" path="/home/arastepa/Desktop/exclude/src/AppRoutes.tsx">
+      <file name="AppRoutes.tsx" path="/home/arastepa/Desktop/new/src/AppRoutes.tsx">
         <metrics statements="31" coveredstatements="31" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -58,7 +58,7 @@
         <line num="36" count="2" type="stmt"/>
         <line num="38" count="1" type="stmt"/>
       </file>
-      <file name="main.tsx" path="/home/arastepa/Desktop/exclude/src/main.tsx">
+      <file name="main.tsx" path="/home/arastepa/Desktop/new/src/main.tsx">
         <metrics statements="8" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="2" count="0" type="stmt"/>
@@ -72,7 +72,7 @@
     </package>
     <package name="src.ErrorBoundary">
       <metrics statements="40" coveredstatements="38" conditionals="9" coveredconditionals="8" methods="7" coveredmethods="6"/>
-      <file name="ErrorBoundary.tsx" path="/home/arastepa/Desktop/exclude/src/ErrorBoundary/ErrorBoundary.tsx">
+      <file name="ErrorBoundary.tsx" path="/home/arastepa/Desktop/new/src/ErrorBoundary/ErrorBoundary.tsx">
         <metrics statements="21" coveredstatements="21" conditionals="6" coveredconditionals="6" methods="4" coveredmethods="4"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -96,7 +96,7 @@
         <line num="26" count="1" type="stmt"/>
         <line num="28" count="1" type="stmt"/>
       </file>
-      <file name="ErrorBtn.tsx" path="/home/arastepa/Desktop/exclude/src/ErrorBoundary/ErrorBtn.tsx">
+      <file name="ErrorBtn.tsx" path="/home/arastepa/Desktop/new/src/ErrorBoundary/ErrorBtn.tsx">
         <metrics statements="19" coveredstatements="17" conditionals="3" coveredconditionals="2" methods="3" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -121,7 +121,7 @@
     </package>
     <package name="src.Header">
       <metrics statements="11" coveredstatements="11" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
-      <file name="Header.tsx" path="/home/arastepa/Desktop/exclude/src/Header/Header.tsx">
+      <file name="Header.tsx" path="/home/arastepa/Desktop/new/src/Header/Header.tsx">
         <metrics statements="11" coveredstatements="11" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -138,7 +138,7 @@
     </package>
     <package name="src.Hooks">
       <metrics statements="11" coveredstatements="11" conditionals="3" coveredconditionals="3" methods="1" coveredmethods="1"/>
-      <file name="useHandleLS.tsx" path="/home/arastepa/Desktop/exclude/src/Hooks/useHandleLS.tsx">
+      <file name="useHandleLS.tsx" path="/home/arastepa/Desktop/new/src/Hooks/useHandleLS.tsx">
         <metrics statements="11" coveredstatements="11" conditionals="3" coveredconditionals="3" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="cond" truecount="1" falsecount="0"/>
@@ -155,7 +155,7 @@
     </package>
     <package name="src.Pages">
       <metrics statements="97" coveredstatements="52" conditionals="9" coveredconditionals="7" methods="5" coveredmethods="2"/>
-      <file name="ErrorPage.tsx" path="/home/arastepa/Desktop/exclude/src/Pages/ErrorPage.tsx">
+      <file name="ErrorPage.tsx" path="/home/arastepa/Desktop/new/src/Pages/ErrorPage.tsx">
         <metrics statements="5" coveredstatements="5" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="cond" truecount="1" falsecount="0"/>
@@ -163,7 +163,7 @@
         <line num="5" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
       </file>
-      <file name="MainPage.tsx" path="/home/arastepa/Desktop/exclude/src/Pages/MainPage.tsx">
+      <file name="MainPage.tsx" path="/home/arastepa/Desktop/new/src/Pages/MainPage.tsx">
         <metrics statements="92" coveredstatements="47" conditionals="8" coveredconditionals="6" methods="4" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -261,7 +261,7 @@
     </package>
     <package name="src.Services">
       <metrics statements="49" coveredstatements="28" conditionals="6" coveredconditionals="4" methods="3" coveredmethods="2"/>
-      <file name="getPlanets.ts" path="/home/arastepa/Desktop/exclude/src/Services/getPlanets.ts">
+      <file name="getPlanets.ts" path="/home/arastepa/Desktop/new/src/Services/getPlanets.ts">
         <metrics statements="49" coveredstatements="28" conditionals="6" coveredconditionals="4" methods="3" coveredmethods="2"/>
         <line num="3" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="4" count="3" type="stmt"/>
@@ -316,7 +316,7 @@
     </package>
     <package name="src.components">
       <metrics statements="132" coveredstatements="132" conditionals="22" coveredconditionals="22" methods="8" coveredmethods="8"/>
-      <file name="Details.tsx" path="/home/arastepa/Desktop/exclude/src/components/Details.tsx">
+      <file name="Details.tsx" path="/home/arastepa/Desktop/new/src/components/Details.tsx">
         <metrics statements="31" coveredstatements="31" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -350,7 +350,7 @@
         <line num="35" count="6" type="stmt"/>
         <line num="37" count="1" type="stmt"/>
       </file>
-      <file name="Main.tsx" path="/home/arastepa/Desktop/exclude/src/components/Main.tsx">
+      <file name="Main.tsx" path="/home/arastepa/Desktop/new/src/components/Main.tsx">
         <metrics statements="58" coveredstatements="58" conditionals="11" coveredconditionals="11" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -411,7 +411,7 @@
         <line num="65" count="15" type="stmt"/>
         <line num="67" count="1" type="stmt"/>
       </file>
-      <file name="PageNumbers.tsx" path="/home/arastepa/Desktop/exclude/src/components/PageNumbers.tsx">
+      <file name="PageNumbers.tsx" path="/home/arastepa/Desktop/new/src/components/PageNumbers.tsx">
         <metrics statements="20" coveredstatements="20" conditionals="5" coveredconditionals="5" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -434,7 +434,7 @@
         <line num="24" count="14" type="stmt"/>
         <line num="26" count="1" type="stmt"/>
       </file>
-      <file name="Search.tsx" path="/home/arastepa/Desktop/exclude/src/components/Search.tsx">
+      <file name="Search.tsx" path="/home/arastepa/Desktop/new/src/components/Search.tsx">
         <metrics statements="23" coveredstatements="23" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="9" count="1" type="cond" truecount="1" falsecount="0"/>
