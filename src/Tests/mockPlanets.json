@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Tatooine",
+    "gravity": "1 standard",
+    "population": "200000",
+    "climate": "arid"
+  },
+  {
+    "name": "Alderaan",
+    "gravity": "1 standard",
+    "population": "2000000000",
+    "climate": "temperate"
+  }
+]
