@@ -11,9 +11,9 @@ describe('PageNumbers component', () => {
       </BrowserRouter>,
     );
 
-    const pageLinks = screen.getAllByRole('link');
+    const pageLink = screen.getByTestId('link-1');
 
-    fireEvent.click(pageLinks[1]);
+    fireEvent.click(pageLink);
 
     await waitFor(() => {
       expect(window.location.pathname).toBe('/page/2');

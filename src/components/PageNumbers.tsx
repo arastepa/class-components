@@ -18,6 +18,7 @@ const PageNumbers = (props: { pageCount: number }) => {
       {new Array(props.pageCount).fill(null).map((_, index) => {
         return (
           <NavLink
+            data-testid={`link-${index}`}
             className={({ isActive }) =>
               isActive
                 ? `${styles.active} ${styles.pageNumber}`
