@@ -2,6 +2,11 @@ export interface Props {
   onHandleSubmit: () => void;
 }
 
+export interface PlanetState {
+  items: Planets[];
+  isloading: boolean;
+}
+
 export interface Planets {
   name: string;
   climate: string;
