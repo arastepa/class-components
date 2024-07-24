@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { getPlanet } from '../Services/getPlanets';
 import Details from './Details';
 
-const Main = (props: { pageCount: number; planets: Planets[] }) => {
+const Main = (props: { planets: Planets[] }) => {
   const [details, setDetails] = useState<PlanetDetails | null>(null);
   const [searchParams] = useSearchParams();
   const [isLoading, setIsloading] = useState(false);
@@ -57,7 +57,7 @@ const Main = (props: { pageCount: number; planets: Planets[] }) => {
             )}
             {details && <Details details={details} setDetails={setDetails} />}
           </div>
-          <PageNumbers pageCount={props.pageCount} />
+          <PageNumbers />
         </div>
       )}
     </>

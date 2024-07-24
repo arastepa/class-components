@@ -1,18 +1,23 @@
 import { BrowserRouter } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { getPageCount } from './Services/getPlanets';
 import AppRoutes from './AppRoutes';
+import { useGetAllPlanetsQuery } from './Store/api';
+import { useDispatch } from 'react-redux';
+import { setPageCount } from './Store/Pagination/pageSlice';
 
 const App = () => {
-  const [pageCount, setPageCount] = useState<number>(0);
+  const dispatch = useDispatch();
+  const { data } = useGetAllPlanetsQuery();
   useEffect(() => {
-    getPageCount().then((result) => {
-      if (result) setPageCount(result);
-    });
-  }, []);
+    if (data) {
+      const count = getPageCount(data);
+      dispatch(setPageCount(count));
+    }
+  }, [data, dispatch]);
   return (
     <BrowserRouter>
-      <AppRoutes pageCount={pageCount} setPageCount={setPageCount} />
+      <AppRoutes />
     </BrowserRouter>
   );
 };

@@ -1,54 +1,99 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Search from '../components/Search';
 import Main from '../components/Main';
 import styles from '../Styles/app.module.css';
 import { Planets } from '../Types/appTypes';
-import { getPageCount, getPlanets } from '../Services/getPlanets';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import ErrorBtn from '../ErrorBoundary/ErrorBtn';
 import React from 'react';
 import useHandleLS from '../Hooks/useHandleLS';
 import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setPageCount } from '../Store/Pagination/pageSlice';
+import { useGetPlanetQuery, useGetPlanetsQuery } from '../Store/api';
+import { setPlanets } from '../Store/Planets/planetSlice';
 
-const MainPage = (props: {
-  pageCount: number;
-  setPageCount: (x: number) => void;
-}) => {
+const MainPage = () => {
   const [search, setSearch] = useState('');
-  const [planets, setPlanets] = useState<Planets[]>([]);
-  const [isLoading, setIsloading] = useState(false);
+  const [planetsData, setPlanetsData] = useState<Planets[]>([]);
   const { setPrevSearch } = useHandleLS();
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const {
+    data: prevSearchedData,
+    isLoading: searchLoading,
+    isFetching: searchFetching,
+  } = useGetPlanetQuery(localStorage.getItem('previous') ?? '');
+  const { data: searchedData } = useGetPlanetQuery(search);
+  const {
+    data: resultData,
+    isLoading: pageLoading,
+    isFetching: pageFetching,
+  } = useGetPlanetsQuery(id === undefined ? 1 : +id);
+
+  const loading =
+    searchLoading || pageLoading || searchFetching || pageFetching;
+
+  const searchedDataResult: Planets[] | undefined = useMemo(
+    () =>
+      searchedData?.results.map((planet: Planets) => ({
+        name: planet.name,
+        climate: planet.climate,
+        gravity: planet.gravity,
+        population: planet.population,
+      })),
+    [searchedData],
+  );
+
+  const prevSearchedDataResult: Planets[] | undefined = useMemo(
+    () =>
+      prevSearchedData?.results.map((planet: Planets) => ({
+        name: planet.name,
+        climate: planet.climate,
+        gravity: planet.gravity,
+        population: planet.population,
+      })),
+    [prevSearchedData],
+  );
+
+  const pageResult: Planets[] | undefined = useMemo(
+    () =>
+      resultData?.results.map((planet: Planets) => ({
+        name: planet.name,
+        climate: planet.climate,
+        gravity: planet.gravity,
+        population: planet.population,
+      })),
+    [resultData],
+  );
 
   useEffect(() => {
     const previous = localStorage.getItem('previous');
-    setIsloading(true);
     if (previous === '') {
-      getPlanets(
-        `https://swapi.dev/api/planets/?search=&page=${id === undefined ? 1 : id}`,
-      ).then((response) => {
-        setIsloading(false);
-        getPageCount().then((res) => {
-          if (res) props.setPageCount(res);
-        });
-        if (response) setPlanets(response);
-      });
+      if (pageResult) {
+        setPlanetsData(pageResult);
+        console.log(pageResult);
+        dispatch(setPlanets(pageResult));
+      }
     } else if (previous) {
-      getPlanets(
-        `https://swapi.dev/api/planets/?search=${previous.trim()}`,
-      ).then((response) => {
-        setIsloading(false);
-        if (response) setPlanets(response);
-        props.setPageCount(response ? Math.ceil(response.length / 10) : 0);
-      });
+      if (prevSearchedDataResult) {
+        setPlanetsData(prevSearchedDataResult);
+      }
+      dispatch(
+        setPageCount(
+          prevSearchedDataResult
+            ? Math.ceil(prevSearchedDataResult.length / 10)
+            : 0,
+        ),
+      );
     }
-  }, [id, props]);
+  }, [dispatch, pageResult, prevSearchedDataResult, resultData?.count]);
 
   async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
     try {
       setPrevSearch(search);
-      const prevoius = search;
+      const prevoius = localStorage.getItem('previous') || search;
       await getResponse(prevoius);
     } catch (error) {
       return null;
@@ -57,28 +102,24 @@ const MainPage = (props: {
 
   const getResponse = async (prevoius: string) => {
     try {
-      setIsloading(true);
       let response: Planets[] | undefined;
       if (search === '' && prevoius === '') {
-        response = await getPlanets(`https://swapi.dev/api/planets/`);
-        await getPageCount();
+        response = pageResult;
+        if (pageResult) {
+          dispatch(setPageCount((resultData?.count ?? 0) / pageResult.length));
+        }
       } else if (search !== '') {
-        response = await getPlanets(
-          `https://swapi.dev/api/planets/?search=${search.trim()}`,
-        );
-        props.setPageCount(response ? Math.ceil(response.length / 10) : 0);
+        response = searchedDataResult;
+        dispatch(setPageCount(response ? Math.ceil(response.length / 10) : 0));
       } else if (prevoius !== '') {
-        response = await getPlanets(
-          `https://swapi.dev/api/planets/?search=${prevoius.trim()}`,
-        );
-        props.setPageCount(response ? Math.ceil(response.length / 10) : 0);
+        response = prevSearchedDataResult;
+        dispatch(setPageCount(response ? Math.ceil(response.length / 10) : 0));
       }
       if (response !== undefined) {
-        setPlanets(response);
+        console.log('hiii');
+        setPlanetsData(response);
       }
-      setIsloading(false);
     } catch (error) {
-      setIsloading(false);
       return null;
     }
   };
@@ -93,10 +134,10 @@ const MainPage = (props: {
         <ErrorBtn />
         <Search onHandleSubmit={handleSubmit} onHandleChange={handleChange} />
         <hr />
-        {isLoading ? (
+        {loading ? (
           <div className={styles.spinner} data-testid="spinner"></div>
         ) : (
-          <Main pageCount={props.pageCount} planets={planets} />
+          <Main planets={planetsData} />
         )}
       </div>
     </ErrorBoundary>
