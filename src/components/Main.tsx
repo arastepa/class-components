@@ -3,30 +3,38 @@ import styles from '../Styles/app.module.css';
 import PageNumbers from './PageNumbers';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getPlanet } from '../Services/getPlanets';
 import Details from './Details';
+import { useGetPlanetDetailQuery } from '../Store/api';
+import { useDispatch } from 'react-redux';
+import { setPlanetDetail } from '../Store/Planets/planetSlice';
 
 const Main = (props: { planets: Planets[] }) => {
   const [details, setDetails] = useState<PlanetDetails | null>(null);
   const [searchParams] = useSearchParams();
-  const [isLoading, setIsloading] = useState(false);
   const { id } = useParams();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const detail = searchParams.get('details');
+  const planetId = detail
+    ? (+(id ?? 1) - 1) * props.planets.length + +detail
+    : null;
+  const {
+    data: planetDetails,
+    isLoading,
+    isFetching,
+  } = useGetPlanetDetailQuery(planetId, {
+    skip: !planetId,
+  });
+
   useEffect(() => {
-    const detail = searchParams.get('details');
-    if (detail) {
-      setIsloading(true);
-      getPlanet(
-        `https://swapi.dev/api/planets/${(+(id ?? 1) - 1) * props.planets.length + +detail}`,
-      ).then((res) => {
-        if (res) setDetails(res);
-        setIsloading(false);
-      });
+    if (planetDetails) {
+      dispatch(setPlanetDetail(planetDetails));
+      setDetails(planetDetails);
     }
-  }, [searchParams, id, props.planets.length]);
+  }, [props.planets.length, planetDetails, dispatch]);
   return (
     <>
-      {isLoading ? (
+      {isLoading || isFetching ? (
         <div className={styles.spinner}></div>
       ) : (
         <div className={styles.mainContainer}>

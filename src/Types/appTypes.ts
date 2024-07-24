@@ -5,6 +5,7 @@ export interface Props {
 export interface PlanetState {
   items: Planets[];
   isloading: boolean;
+  planetDetail: PlanetDetails | null;
 }
 
 export interface Planets {

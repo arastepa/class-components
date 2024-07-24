@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { Planets, PlanetState } from '../../Types/appTypes';
+import { PlanetDetails, Planets, PlanetState } from '../../Types/appTypes';
 
 const initialState: PlanetState = {
   items: [],
   isloading: false,
+  planetDetail: null,
 };
 
 export const planetSlice = createSlice({
@@ -14,12 +15,15 @@ export const planetSlice = createSlice({
     setPlanets: (state, action: PayloadAction<Planets[]>) => {
       state.items = action.payload;
     },
+    setPlanetDetail: (state, action: PayloadAction<PlanetDetails>) => {
+      state.planetDetail = action.payload;
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isloading = action.payload;
     },
   },
 });
 
-export const { setPlanets, setLoading } = planetSlice.actions;
+export const { setPlanets, setLoading, setPlanetDetail } = planetSlice.actions;
 
 export default planetSlice.reducer;

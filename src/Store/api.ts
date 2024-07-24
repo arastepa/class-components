@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Planets } from '../Types/appTypes';
+import { PlanetDetails, Planets } from '../Types/appTypes';
 
 export const planetsApi = createApi({
   reducerPath: 'planetsApi',
@@ -14,8 +14,15 @@ export const planetsApi = createApi({
     getPlanet: builder.query<{ count: number; results: Planets[] }, string>({
       query: (search: string) => `planets?search=${search.trim()}`,
     }),
+    getPlanetDetail: builder.query<PlanetDetails, number | null>({
+      query: (planetNum: number | null) => `planets/${planetNum}`,
+    }),
   }),
 });
 
-export const { useGetAllPlanetsQuery, useGetPlanetsQuery, useGetPlanetQuery } =
-  planetsApi;
+export const {
+  useGetAllPlanetsQuery,
+  useGetPlanetsQuery,
+  useGetPlanetQuery,
+  useGetPlanetDetailQuery,
+} = planetsApi;
