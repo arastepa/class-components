@@ -5,13 +5,19 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Details from './Details';
 import { useGetPlanetDetailQuery } from '../Store/api';
-import { useDispatch } from 'react-redux';
-import { setPlanetDetail } from '../Store/Planets/planetSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  rmSelected,
+  setPlanetDetail,
+  setSelected,
+} from '../Store/Planets/planetSlice';
+import { RootState } from '../Store/store';
 
 const Main = (props: { planets: Planets[] }) => {
   const [details, setDetails] = useState<PlanetDetails | null>(null);
   const [searchParams] = useSearchParams();
   const { id } = useParams();
+  const selected = useSelector((state: RootState) => state.planets.selected);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const detail = searchParams.get('details');
@@ -45,20 +51,34 @@ const Main = (props: { planets: Planets[] }) => {
               <ul className={styles.main}>
                 {props.planets.map((planet: Planets, index: number) => {
                   return (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        navigate(`?details=${index + 1}`);
-                      }}
-                      data-testid={`planet-${index}`}
-                    >
-                      <div>
-                        <p className={styles.title}>Name: {planet.name}</p>
-                        <p>Gravity: {planet.gravity}</p>
-                        <p>Population: {planet.population}</p>
-                        <p>Climate: {planet.climate}</p>
-                      </div>
-                    </li>
+                    <div className={styles['checkboxes-list']} key={index}>
+                      <input
+                        type="checkbox"
+                        name="selects"
+                        id=""
+                        checked={
+                          !!selected.find((el) => el.name === planet.name)
+                        }
+                        onChange={(e) => {
+                          e.target.checked
+                            ? dispatch(setSelected(planet))
+                            : dispatch(rmSelected(planet));
+                        }}
+                      />
+                      <li
+                        onClick={() => {
+                          navigate(`?details=${index + 1}`);
+                        }}
+                        data-testid={`planet-${index}`}
+                      >
+                        <div>
+                          <p className={styles.title}>Name: {planet.name}</p>
+                          <p>Gravity: {planet.gravity}</p>
+                          <p>Population: {planet.population}</p>
+                          <p>Climate: {planet.climate}</p>
+                        </div>
+                      </li>
+                    </div>
                   );
                 })}
               </ul>

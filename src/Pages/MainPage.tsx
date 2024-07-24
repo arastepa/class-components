@@ -72,7 +72,6 @@ const MainPage = () => {
     if (previous === '') {
       if (pageResult) {
         setPlanetsData(pageResult);
-        console.log(pageResult);
         dispatch(setPlanets(pageResult));
       }
     } else if (previous) {
@@ -116,7 +115,6 @@ const MainPage = () => {
         dispatch(setPageCount(response ? Math.ceil(response.length / 10) : 0));
       }
       if (response !== undefined) {
-        console.log('hiii');
         setPlanetsData(response);
       }
     } catch (error) {

@@ -184,3 +184,11 @@ to {
     display: flex;
     gap: 50px;
 }
+
+.checkboxes-list {
+    display: flex;
+}
+input[type="checkbox"] {
+
+    cursor: pointer;
+}

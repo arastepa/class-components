@@ -6,6 +6,7 @@ const initialState: PlanetState = {
   items: [],
   isloading: false,
   planetDetail: null,
+  selected: [],
 };
 
 export const planetSlice = createSlice({
@@ -18,12 +19,29 @@ export const planetSlice = createSlice({
     setPlanetDetail: (state, action: PayloadAction<PlanetDetails>) => {
       state.planetDetail = action.payload;
     },
+    setSelected: (state, action: PayloadAction<Planets>) => {
+      if (!state.selected.find((el) => el.name === action.payload.name))
+        state.selected = [...state.selected, action.payload];
+    },
+    rmSelected: (state, action: PayloadAction<Planets>) => {
+      if (state.selected.find((el) => el.name === action.payload.name)) {
+        state.selected = state.selected.filter(
+          (el) => el.name !== action.payload.name,
+        );
+      }
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isloading = action.payload;
     },
   },
 });
 
-export const { setPlanets, setLoading, setPlanetDetail } = planetSlice.actions;
+export const {
+  setPlanets,
+  setLoading,
+  setPlanetDetail,
+  setSelected,
+  rmSelected,
+} = planetSlice.actions;
 
 export default planetSlice.reducer;

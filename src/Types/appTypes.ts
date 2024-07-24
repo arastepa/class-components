@@ -6,6 +6,7 @@ export interface PlanetState {
   items: Planets[];
   isloading: boolean;
   planetDetail: PlanetDetails | null;
+  selected: Planets[];
 }
 
 export interface Planets {
