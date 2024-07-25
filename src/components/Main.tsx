@@ -2,7 +2,7 @@ import { PlanetDetails, Planets } from '../Types/appTypes';
 import styles from '../Styles/app.module.css';
 import PageNumbers from './PageNumbers';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Details from './Details';
 import { useGetPlanetDetailQuery } from '../Store/api';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +13,7 @@ import {
   setSelected,
 } from '../Store/Planets/planetSlice';
 import { RootState } from '../Store/store';
+import { ThemeContext } from '../ThemeContext/ThemeContext';
 
 const Main = (props: { planets: Planets[] }) => {
   const [details, setDetails] = useState<PlanetDetails | null>(null);
@@ -32,6 +33,7 @@ const Main = (props: { planets: Planets[] }) => {
   } = useGetPlanetDetailQuery(planetId, {
     skip: !planetId,
   });
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     if (planetDetails) {
@@ -71,7 +73,9 @@ const Main = (props: { planets: Planets[] }) => {
       {isLoading || isFetching ? (
         <div className={styles.spinner}></div>
       ) : (
-        <div className={styles.mainContainer}>
+        <div
+          className={`${styles.mainContainer} ${theme === 'light' ? styles.lightTheme : styles.darkTheme}`}
+        >
           <div className={styles.detailsMain}>
             {props.planets.length === 0 ? (
               <p className={styles.noData}>No Data</p>

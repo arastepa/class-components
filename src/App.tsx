@@ -5,6 +5,7 @@ import AppRoutes from './AppRoutes';
 import { useGetAllPlanetsQuery } from './Store/api';
 import { useDispatch } from 'react-redux';
 import { setPageCount } from './Store/Pagination/pageSlice';
+import { ThemeProvider } from './ThemeContext/ThemeContext';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -16,9 +17,11 @@ const App = () => {
     }
   }, [data, dispatch]);
   return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </ThemeProvider>
   );
 };
 

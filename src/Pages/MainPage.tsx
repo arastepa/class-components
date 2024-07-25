@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import Search from '../components/Search';
 import Main from '../components/Main';
 import styles from '../Styles/app.module.css';
@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { setPageCount } from '../Store/Pagination/pageSlice';
 import { useGetPlanetQuery, useGetPlanetsQuery } from '../Store/api';
 import { setPlanets } from '../Store/Planets/planetSlice';
+import { ThemeContext } from '../ThemeContext/ThemeContext';
 
 const MainPage = () => {
   const [search, setSearch] = useState('');
@@ -88,6 +89,12 @@ const MainPage = () => {
     }
   }, [dispatch, pageResult, prevSearchedDataResult, resultData?.count]);
 
+  const { theme, setTheme } = useContext(ThemeContext);
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
   async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
     try {
@@ -130,6 +137,12 @@ const MainPage = () => {
     <ErrorBoundary>
       <div className={styles.container}>
         <ErrorBtn />
+        <input
+          type="submit"
+          onClick={toggleTheme}
+          value={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Theme`}
+        />
+
         <Search onHandleSubmit={handleSubmit} onHandleChange={handleChange} />
         <hr />
         {loading ? (
