@@ -192,3 +192,15 @@ input[type="checkbox"] {
 
     cursor: pointer;
 }
+
+.btns {
+    display: flex;
+    gap: 20px;
+}
+
+.btns input[type="submit"] {
+
+    width:fit-content;
+
+
+}

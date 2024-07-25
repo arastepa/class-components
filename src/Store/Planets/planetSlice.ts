@@ -30,6 +30,9 @@ export const planetSlice = createSlice({
         );
       }
     },
+    clearSelected: (state) => {
+      state.selected = [];
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isloading = action.payload;
     },
@@ -42,6 +45,7 @@ export const {
   setPlanetDetail,
   setSelected,
   rmSelected,
+  clearSelected,
 } = planetSlice.actions;
 
 export default planetSlice.reducer;

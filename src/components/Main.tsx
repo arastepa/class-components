@@ -7,6 +7,7 @@ import Details from './Details';
 import { useGetPlanetDetailQuery } from '../Store/api';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  clearSelected,
   rmSelected,
   setPlanetDetail,
   setSelected,
@@ -38,6 +39,33 @@ const Main = (props: { planets: Planets[] }) => {
       setDetails(planetDetails);
     }
   }, [props.planets.length, planetDetails, dispatch]);
+
+  const generateCSV = (data: Planets[]) => {
+    const header = 'Name,Gravity,Population,Climate\n';
+    const rows = data
+      .map(
+        (planet) =>
+          `${planet.name},${planet.gravity},${planet.population},${planet.climate}`,
+      )
+      .join('\n');
+    return `${header}${rows}`;
+  };
+
+  const handleDownload = () => {
+    const csvContent = generateCSV(selected);
+    const fileName = `${selected.length}_planets.csv`;
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   return (
     <>
       {isLoading || isFetching ? (
@@ -85,6 +113,19 @@ const Main = (props: { planets: Planets[] }) => {
             )}
             {details && <Details details={details} setDetails={setDetails} />}
           </div>
+          {selected.length !== 0 && (
+            <div className={styles.btns}>
+              <p>{selected.length} items selected</p>
+              <input type="submit" value="download" onClick={handleDownload} />
+              <input
+                type="submit"
+                value="unselect all"
+                onClick={() => {
+                  dispatch(clearSelected());
+                }}
+              />
+            </div>
+          )}
           <PageNumbers />
         </div>
       )}
