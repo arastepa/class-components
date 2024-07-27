@@ -16,7 +16,7 @@ export const planetSlice = createSlice({
     setPlanets: (state, action: PayloadAction<Planets[]>) => {
       state.items = action.payload;
     },
-    setPlanetDetail: (state, action: PayloadAction<PlanetDetails>) => {
+    setPlanetDetail: (state, action: PayloadAction<PlanetDetails | null>) => {
       state.planetDetail = action.payload;
     },
     setSelected: (state, action: PayloadAction<Planets>) => {

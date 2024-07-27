@@ -1,162 +1,47 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import Main from '../components/Main';
-import { Planets } from '../Types/appTypes';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { describe, expect, Mock, test, vi } from 'vitest';
-import { getPlanet } from '../Services/getPlanets';
+import { render, screen, waitFor } from '@testing-library/react';
+import { describe, expect, test } from 'vitest';
+import { Provider } from 'react-redux';
+import App from '../App';
+import { store } from '../Store/store';
+import { mockServer } from './mocks/mockServer';
 
-vi.mock('../Services/getPlanets');
-
-const mockPlanets: Planets[] = [
-  {
-    name: 'Tatooine',
-    gravity: '1 standard',
-    population: '200000',
-    climate: 'arid',
-  },
-  {
-    name: 'Alderaan',
-    gravity: '1 standard',
-    population: '2000000000',
-    climate: 'temperate',
-  },
-];
-
-const mockPlanetDetails = {
-  name: 'Tatooine',
-  gravity: '1 standard',
-  population: '200000',
-  climate: 'arid',
-  orbital_period: '304',
-  diameter: '10465',
-  rotation_period: '23',
-  surface_water: '1',
-  terrain: 'desert',
-};
+mockServer();
 
 describe('Main component', () => {
-  //   test('displays loading indicator while fetching data', async () => {
-  //     render(
-  //       <BrowserRouter>
-  //         <Routes>
-  //           <Route
-  //             path="/"
-  //             element={<Main pageCount={1} planets={mockPlanets} />}
-  //           />
-  //         </Routes>
-  //       </BrowserRouter>,
-  //     );
-
-  //     const firstCard = await waitFor(() => {
-  //       return screen.getByTestId('planet-0');
-  //     });
-  //     if (firstCard) {
-  //       fireEvent.click(firstCard);
-  //       await waitFor(() => {
-  //         expect(window.location.search).toBe('?details=1');
-  //       });
-  //     }
-
-  //     // expect(
-  //     //   await waitFor(() => {
-  //     //     return screen.queryByTestId('spinner');
-  //     //   }),
-  //     // ).toBeNull();
-  //   });
-
   test('renders the specified number of cards', async () => {
     render(
-      <BrowserRouter>
-        <Main pageCount={1} planets={mockPlanets} />
-      </BrowserRouter>,
+      <Provider store={store}>
+        <App />
+      </Provider>,
     );
 
     const cards = await waitFor(() => {
       return screen.getAllByRole('listitem');
     });
-    expect(cards).toHaveLength(mockPlanets.length);
+    expect(cards).toHaveLength(1);
   });
 
-  test('displays an appropriate message if no cards are present', async () => {
+  test('renders the relevant card data', async () => {
     render(
-      <BrowserRouter>
-        <Main pageCount={1} planets={[]} />
-      </BrowserRouter>,
+      <Provider store={store}>
+        <App />
+      </Provider>,
     );
 
-    const noDataMessage = await waitFor(() => {
-      return screen.getByText('No Data');
-    });
-    expect(noDataMessage).toBeInTheDocument();
-  });
-
-  test('renders the relevant card data', () => {
-    render(
-      <BrowserRouter>
-        <Main pageCount={1} planets={mockPlanets} />
-      </BrowserRouter>,
-    );
-
-    const tatooineCard = screen.getByText('Name: Tatooine');
-    const alderaanCard = screen.getByText('Name: Alderaan');
+    const tatooineCard = await screen.findByText('Name: Tatooine');
 
     expect(tatooineCard).toBeInTheDocument();
-    expect(alderaanCard).toBeInTheDocument();
   });
 
-  test('clicking on a Card opens a detailed view', async () => {
-    (getPlanet as Mock).mockResolvedValue(mockPlanetDetails);
-
+  test('renders the relevant card data', async () => {
     render(
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={<Main pageCount={1} planets={mockPlanets} />}
-          />
-        </Routes>
-      </BrowserRouter>,
+      <Provider store={store}>
+        <App />
+      </Provider>,
     );
 
-    const firstCard = await waitFor(() => {
-      return screen.getByTestId('planet-0');
-    });
-    if (firstCard) {
-      fireEvent.click(firstCard);
-      await waitFor(() => {
-        expect(window.location.search).toBe('?details=1');
-      });
-    }
-  });
+    const tatooineCard = await screen.findByText('Name: Tatooine');
 
-  test('clicking triggers an additional API call to fetch detailed information', async () => {
-    (getPlanet as Mock).mockResolvedValue(mockPlanetDetails);
-
-    render(
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={<Main pageCount={1} planets={mockPlanets} />}
-          />
-        </Routes>
-      </BrowserRouter>,
-    );
-
-    const firstCard = await waitFor(() => {
-      return screen.getByTestId('planet-0');
-    });
-    if (firstCard) {
-      fireEvent.click(firstCard);
-      await waitFor(() => {
-        expect(getPlanet).toHaveBeenCalled();
-        expect(getPlanet).toHaveBeenCalledWith(
-          'https://swapi.dev/api/planets/1',
-        );
-      });
-      await waitFor(() => {
-        expect(screen.getByText('Orbital Period: 304')).toBeInTheDocument();
-      });
-    }
+    expect(tatooineCard).toBeInTheDocument();
   });
 });

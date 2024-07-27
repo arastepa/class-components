@@ -1,14 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import App from '../App';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
+import { Provider } from 'react-redux';
+import { store } from '../Store/store';
 
 describe('App Component', () => {
   it('renders correctly with pageCount 1', async () => {
-    vi.mock('./Services/getPlanets', () => ({
-      getPageCount: vi.fn().mockResolvedValue(1),
-    }));
-
-    render(<App />);
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+    );
     expect(await screen.findByTestId('search')).toBeInTheDocument();
   });
 });

@@ -115,7 +115,7 @@ const Main = (props: { planets: Planets[] }) => {
                 })}
               </ul>
             )}
-            {details && <Details details={details} setDetails={setDetails} />}
+            {details && <Details />}
           </div>
           {selected.length !== 0 && (
             <div className={styles.btns}>

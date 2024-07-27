@@ -1,15 +1,15 @@
-// App.test.tsx
 import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { describe, expect, test } from 'vitest';
-import AppRoutes from '../AppRoutes';
+import App from '../App';
+import { store } from '../Store/store';
 
 describe('Header', () => {
   test('renders header correctly', () => {
     render(
-      <BrowserRouter>
-        <AppRoutes pageCount={1} setPageCount={() => {}} />
-      </BrowserRouter>,
+      <Provider store={store}>
+        <App />
+      </Provider>,
     );
 
     const headerElement = screen.getByTestId('header');

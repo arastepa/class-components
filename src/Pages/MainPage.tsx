@@ -138,6 +138,7 @@ const MainPage = () => {
       <div className={styles.container}>
         <ErrorBtn />
         <input
+          data-testid="switch"
           type="submit"
           onClick={toggleTheme}
           value={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Theme`}

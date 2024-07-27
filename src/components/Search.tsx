@@ -24,7 +24,7 @@ const Search = (props: SearchProps) => {
           name="search"
           data-testid="search"
         />
-        <input type="submit" value="find" />
+        <input type="submit" value="find" data-testid="searching" />
       </form>
     </div>
   );

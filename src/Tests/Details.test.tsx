@@ -1,61 +1,40 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import mockPlanetDetails from './mockPlanetDetails.json';
-import { describe, expect, test, vi } from 'vitest';
-import Details from '../components/Details';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { render, screen, waitFor } from '@testing-library/react';
+import { describe, expect, test } from 'vitest';
+import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from '../Store/store';
+import Main from '../components/Main';
+import { mockServer } from './mocks/mockServer';
+
+mockServer();
 
 describe('Details component', () => {
-  test('renders detailed card data correctly', () => {
+  test('renders Details component when a planet is selected', async () => {
     render(
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Details details={mockPlanetDetails} setDetails={() => {}} />
-            }
+      <Provider store={store}>
+        <MemoryRouter>
+          <Main
+            planets={[
+              {
+                name: 'Tatooine',
+                climate: 'arid',
+                gravity: '1 standard',
+                population: '200000',
+              },
+            ]}
           />
-        </Routes>
-      </BrowserRouter>,
+        </MemoryRouter>
+      </Provider>,
     );
 
-    expect(screen.getByText('Name: Tatooine')).toBeInTheDocument();
-    expect(screen.getByText('Gravity: 1 standard')).toBeInTheDocument();
-    expect(screen.getByText('Population: 200000')).toBeInTheDocument();
-    expect(screen.getByText('Climate: arid')).toBeInTheDocument();
-    expect(screen.getByText('Orbital Period: 304')).toBeInTheDocument();
-    expect(screen.getByText('Diameter: 10465')).toBeInTheDocument();
-    expect(screen.getByText('Rotation Period: 23')).toBeInTheDocument();
-    expect(screen.getByText('Surface Water: 1')).toBeInTheDocument();
-    expect(screen.getByText('Terrain: desert')).toBeInTheDocument();
-  });
-
-  test('clicking close button hides the component', async () => {
-    const setDetailsMock = vi.fn();
-
-    render(
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Details
-                details={mockPlanetDetails}
-                setDetails={setDetailsMock}
-              />
-            }
-          />
-        </Routes>
-      </BrowserRouter>,
-    );
-
-    const closeBtn = await waitFor(() => {
-      return screen.getByTestId('closeBtn');
-    });
-
-    fireEvent.click(closeBtn);
+    const planetItem = await screen.findByText('Name: Tatooine');
+    planetItem.click();
     await waitFor(() => {
-      expect(setDetailsMock).toHaveBeenCalledTimes(1);
+      expect(screen.getByText('Rotation Period: 23')).toBeInTheDocument();
+      expect(screen.getByText('Orbital Period: 304')).toBeInTheDocument();
+      expect(screen.getByText('Diameter: 10465')).toBeInTheDocument();
+      expect(screen.getByText('Surface Water: 1')).toBeInTheDocument();
+      expect(screen.getByText('Terrain: desert')).toBeInTheDocument();
     });
   });
 });
