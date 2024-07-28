@@ -5,10 +5,13 @@ import planetReducer from '../Store/Planets/planetSlice';
 import Main from '../components/Main';
 import { Planets } from '../Types/appTypes';
 import '@testing-library/jest-dom';
-import { describe, expect, test } from 'vitest';
+import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 import { planetsApi } from '../Store/api';
 import pagesReducer from '../Store/Pagination/pageSlice';
+import { mockServer } from './mocks/mockServer';
+
+mockServer();
 
 const mockPlanets: Planets[] = [
   {
@@ -39,6 +42,14 @@ const renderWithRedux = (component: JSX.Element) => {
     store,
   };
 };
+
+beforeAll(() => {
+  global.URL.createObjectURL = vi.fn(() => 'mock-url');
+});
+
+afterAll(() => {
+  global.URL.createObjectURL = URL.createObjectURL;
+});
 
 describe('Main Component Flyout', () => {
   test('displays flyout with buttons when items are selected', () => {

@@ -57,6 +57,7 @@ const Main = (props: { planets: Planets[] }) => {
     const csvContent = generateCSV(selected);
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
+    console.log(url);
     return url;
   };
 
