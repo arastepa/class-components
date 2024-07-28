@@ -1,0 +1,11 @@
+{
+  "name": "Tatooine",
+  "gravity": "1 standard",
+  "population": "200000",
+  "climate": "arid",
+  "orbital_period": "304",
+  "diameter": "10465",
+  "rotation_period": "23",
+  "surface_water": "1",
+  "terrain": "desert"
+}
