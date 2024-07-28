@@ -211,3 +211,20 @@ input[type="checkbox"] {
     background-color: #0F0B11;
     color: #ffffff;
 }
+
+.download {
+    background-color: #4C8CD7;
+    color: white;
+    border-radius: 5px;
+    border-color: aliceblue;
+    height: 40px;
+    border-width: 1px;
+    cursor: pointer;
+    width:fit-content;
+
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}

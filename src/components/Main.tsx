@@ -7,13 +7,13 @@ import Details from './Details';
 import { useGetPlanetDetailQuery } from '../Store/api';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  clearSelected,
   rmSelected,
   setPlanetDetail,
   setSelected,
 } from '../Store/Planets/planetSlice';
 import { RootState } from '../Store/store';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
+import { FlyOut } from './Flyout';
 
 const Main = (props: { planets: Planets[] }) => {
   const [details, setDetails] = useState<PlanetDetails | null>(null);
@@ -53,19 +53,11 @@ const Main = (props: { planets: Planets[] }) => {
     return `${header}${rows}`;
   };
 
-  const handleDownload = () => {
+  const getUrl = () => {
     const csvContent = generateCSV(selected);
-    const fileName = `${selected.length}_planets.csv`;
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    if (link.download !== undefined) {
-      const url = URL.createObjectURL(blob);
-      link.setAttribute('href', url);
-      link.setAttribute('download', fileName);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+    const url = URL.createObjectURL(blob);
+    return url;
   };
 
   return (
@@ -118,17 +110,7 @@ const Main = (props: { planets: Planets[] }) => {
             {details && <Details />}
           </div>
           {selected.length !== 0 && (
-            <div className={styles.btns}>
-              <p>{selected.length} items selected</p>
-              <input type="submit" value="download" onClick={handleDownload} />
-              <input
-                type="submit"
-                value="unselect all"
-                onClick={() => {
-                  dispatch(clearSelected());
-                }}
-              />
-            </div>
+            <FlyOut selected={selected} downloadUrl={getUrl()} />
           )}
           <PageNumbers />
         </div>
