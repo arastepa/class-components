@@ -1,7 +1,7 @@
 import { PlanetDetails, Planets } from '../Types/appTypes';
 import styles from '../Styles/app.module.css';
 import PageNumbers from './PageNumbers';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import Details from './Details';
 import { useGetPlanetDetailQuery } from '../Store/api';
@@ -14,14 +14,15 @@ import {
 import { RootState } from '../Store/store';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
 import { FlyOut } from './Flyout';
+import { useRouter } from 'next/router';
 
 const Main = (props: { planets: Planets[] }) => {
   const [details, setDetails] = useState<PlanetDetails | null>(null);
-  const [searchParams] = useSearchParams();
+  const router = useRouter();
+  const searchParams = new URLSearchParams(router.asPath.split('?')[1] || '');
   const { id } = useParams();
   const selected = useSelector((state: RootState) => state.planets.selected);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const detail = searchParams.get('details');
   const planetId = detail
     ? (+(id ?? 1) - 1) * props.planets.length + +detail
@@ -91,7 +92,7 @@ const Main = (props: { planets: Planets[] }) => {
                       />
                       <li
                         onClick={() => {
-                          navigate(`?details=${index + 1}`);
+                          router.push(`?details=${index + 1}`);
                         }}
                         data-testid={`planet-${index}`}
                       >

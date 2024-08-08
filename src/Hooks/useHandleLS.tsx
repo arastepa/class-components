@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
 
 const UseHandleLS = () => {
+  let prev: string = '';
+  if (typeof window !== 'undefined') {
+    prev = localStorage.getItem('previous') ?? '';
+  }
   const [prevSearch, setPrevSearch] = useState(
-    localStorage.getItem('previous') ?? '',
+    typeof window !== 'undefined' ? prev : '',
   );
   useEffect(() => {
-    localStorage.setItem('previous', prevSearch);
+    if (typeof window !== 'undefined')
+      localStorage.setItem('previous', prevSearch);
   }, [prevSearch]);
   return { prevSearch, setPrevSearch };
 };

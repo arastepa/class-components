@@ -3,7 +3,6 @@ import Search from '../components/Search';
 import Main from '../components/Main';
 import styles from '../Styles/app.module.css';
 import { Planets } from '../Types/appTypes';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import ErrorBtn from '../ErrorBoundary/ErrorBtn';
 import React from 'react';
 import useHandleLS from '../Hooks/useHandleLS';
@@ -24,7 +23,9 @@ const MainPage = () => {
     data: prevSearchedData,
     isLoading: searchLoading,
     isFetching: searchFetching,
-  } = useGetPlanetQuery(localStorage.getItem('previous') ?? '');
+  } = useGetPlanetQuery(
+    typeof window !== 'undefined' ? localStorage.getItem('previous') ?? '' : '',
+  );
   const { data: searchedData } = useGetPlanetQuery(search);
   const {
     data: resultData,
@@ -134,25 +135,23 @@ const MainPage = () => {
   };
 
   return (
-    <ErrorBoundary>
-      <div className={styles.container}>
-        <ErrorBtn />
-        <input
-          data-testid="switch"
-          type="submit"
-          onClick={toggleTheme}
-          value={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Theme`}
-        />
+    <div className={styles.container}>
+      <ErrorBtn />
+      <input
+        data-testid="switch"
+        type="submit"
+        onClick={toggleTheme}
+        value={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Theme`}
+      />
 
-        <Search onHandleSubmit={handleSubmit} onHandleChange={handleChange} />
-        <hr />
-        {loading ? (
-          <div className={styles.spinner} data-testid="spinner"></div>
-        ) : (
-          <Main planets={planetsData} />
-        )}
-      </div>
-    </ErrorBoundary>
+      <Search onHandleSubmit={handleSubmit} onHandleChange={handleChange} />
+      <hr />
+      {loading ? (
+        <div className={styles.spinner} data-testid="spinner"></div>
+      ) : (
+        <Main planets={planetsData} />
+      )}
+    </div>
   );
 };
 

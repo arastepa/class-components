@@ -13,8 +13,8 @@ const Search = (props: SearchProps) => {
         <input
           type="text"
           defaultValue={
-            localStorage.getItem('previous')
-              ? `${localStorage.getItem('previous')}`
+            typeof window !== 'undefined'
+              ? localStorage.getItem('previous') ?? ''
               : ''
           }
           onChange={(val) => {

@@ -9,24 +9,6 @@
    
 }
 
-body {
-    font-family: "Antonio", sans-serif;;
-    background-image: url('../assets/background.jpg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    min-height: 90vh;
-    margin: 0;
-    padding: 0;
-}
-
-@media (max-width: 900px)
-{
-    body {
-        min-height: 100vh;
-    }
-}
-
 .input {
     border-radius: 5px;
     height: 40px;
@@ -42,47 +24,8 @@ body {
 
 }
 
-form {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-input[type="submit"] {
-    width: 15%;
-    min-width: 60px;
-    height: 40px;
-    background-color: #4C8CD7;
-    color: white;
-    border-radius: 5px;
-    border-color: aliceblue;
-    border-width: 1px;
-    cursor: pointer;
-}
-
-ul {
-    list-style-type: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-}
-
 .title {
     font-weight: bold;
-}
-
-li {
-    border: 3px solid black;
-    width: 200px;
-    padding: 10px;
-}
-
-li:hover {
-    border: 3px solid #4C8CD7;
-    cursor: pointer;
-    
 }
 
 .main {
@@ -188,10 +131,6 @@ to {
 .checkboxes-list {
     display: flex;
 }
-input[type="checkbox"] {
-
-    cursor: pointer;
-}
 
 .btns {
     display: flex;
@@ -222,9 +161,4 @@ input[type="checkbox"] {
     cursor: pointer;
     width:fit-content;
 
-}
-
-a {
-    text-decoration: none;
-    color: white;
 }
