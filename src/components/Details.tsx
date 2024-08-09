@@ -10,6 +10,7 @@ const Details = () => {
   const router = useRouter();
   const { id } = router.query;
   const handleClose = () => {
+    dispatch(setPlanetDetail(null));
     const { pathname, query } = router;
     if (pathname.startsWith('/page')) {
       router.push({
@@ -21,7 +22,6 @@ const Details = () => {
     } else {
       router.push('/');
     }
-    dispatch(setPlanetDetail(null));
   };
   if (details) {
     return (

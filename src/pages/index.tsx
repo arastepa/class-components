@@ -140,13 +140,12 @@ const MainPage = () => {
 
   return (
     <div className={styles.container}>
-      <ErrorBtn />
-      <input
-        data-testid="switch"
-        type="submit"
-        onClick={toggleTheme}
-        value={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Theme`}
-      />
+      <div className={styles.btns}>
+        <ErrorBtn />
+        <button className={styles.switch} onClick={toggleTheme}>
+          {`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Theme`}
+        </button>
+      </div>
 
       <Search onHandleSubmit={handleSubmit} onHandleChange={handleChange} />
       <hr />

@@ -41,6 +41,7 @@
     background-color: #F9FAFB;
     padding: 2%;
     width: 80%;
+    border-radius: 20px;
 }
 
 .detailsMain {
@@ -161,4 +162,14 @@ to {
     cursor: pointer;
     width:fit-content;
 
+}
+
+.btns {
+    display: flex;
+    flex-direction: row;
+}
+
+.switch {
+    background-color: #8A9796;
+    color: white;
 }

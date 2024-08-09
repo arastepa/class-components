@@ -33,14 +33,16 @@ const Main = (props: { planets: Planets[] }) => {
   } = useGetPlanetDetailQuery(planetId, {
     skip: !planetId,
   });
+  console.log('det:', planetId);
+  console.log('det:', planetDetails);
   const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
-    if (planetDetails) {
+    if (planetDetails && planetId) {
       dispatch(setPlanetDetail(planetDetails));
       setDetails(planetDetails);
     }
-  }, [props.planets.length, planetDetails, dispatch]);
+  }, [props.planets.length, planetId, planetDetails, dispatch]);
 
   const generateCSV = (data: Planets[]) => {
     const header = 'Name,Gravity,Population,Climate\n';
@@ -58,6 +60,18 @@ const Main = (props: { planets: Planets[] }) => {
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     return url;
+  };
+
+  const handleOpen = (index: number) => {
+    const { pathname } = router;
+    if (pathname.startsWith('/page')) {
+      router.push({
+        pathname: '/page/[id]',
+        query: { id: id, details: index + 1 },
+      });
+    } else {
+      router.push(`/?details=${index + 1}`);
+    }
   };
 
   return (
@@ -91,10 +105,7 @@ const Main = (props: { planets: Planets[] }) => {
                       />
                       <li
                         onClick={() => {
-                          router.push({
-                            pathname: '/page/[id]',
-                            query: { id: id, details: index + 1 },
-                          });
+                          handleOpen(index);
                         }}
                         data-testid={`planet-${index}`}
                       >
