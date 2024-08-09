@@ -1,7 +1,6 @@
 import { PlanetDetails, Planets } from '../Types/appTypes';
 import styles from '../Styles/app.module.css';
 import PageNumbers from './PageNumbers';
-import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import Details from './Details';
 import { useGetPlanetDetailQuery } from '../Store/api';
@@ -20,7 +19,7 @@ const Main = (props: { planets: Planets[] }) => {
   const [details, setDetails] = useState<PlanetDetails | null>(null);
   const router = useRouter();
   const searchParams = new URLSearchParams(router.asPath.split('?')[1] || '');
-  const { id } = useParams();
+  const { id } = router.query;
   const selected = useSelector((state: RootState) => state.planets.selected);
   const dispatch = useDispatch();
   const detail = searchParams.get('details');
@@ -92,7 +91,10 @@ const Main = (props: { planets: Planets[] }) => {
                       />
                       <li
                         onClick={() => {
-                          router.push(`?details=${index + 1}`);
+                          router.push({
+                            pathname: '/page/[id]',
+                            query: { id: id, details: index + 1 },
+                          });
                         }}
                         data-testid={`planet-${index}`}
                       >

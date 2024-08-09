@@ -1,14 +1,28 @@
 import styles from '../Styles/app.module.css';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../Store/store';
 import { setPlanetDetail } from '../Store/Planets/planetSlice';
 
 const Details = () => {
   const details = useSelector((state: RootState) => state.planets.planetDetail);
-  const location = useLocation();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const router = useRouter();
+  const { id } = router.query;
+  const handleClose = () => {
+    const { pathname, query } = router;
+    if (pathname.startsWith('/page')) {
+      router.push({
+        pathname,
+        query: { id: id },
+      });
+    } else if (!pathname.startsWith('/page') && query.details) {
+      router.push('/');
+    } else {
+      router.push('/');
+    }
+    dispatch(setPlanetDetail(null));
+  };
   if (details) {
     return (
       <div className={styles.details}>
@@ -21,17 +35,7 @@ const Details = () => {
         <p>Rotation Period: {details?.rotation_period}</p>
         <p>Surface Water: {details?.surface_water}</p>
         <p>Terrain: {details?.terrain}</p>
-        <input
-          type="submit"
-          value="close"
-          onClick={() => {
-            const { pathname, hash } = location;
-            const newUrl = `${pathname}${hash}`;
-            navigate(newUrl);
-            dispatch(setPlanetDetail(null));
-          }}
-          data-testid={`closeBtn`}
-        />
+        <input type="submit" value="close" onClick={handleClose} />
       </div>
     );
   }

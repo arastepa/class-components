@@ -6,25 +6,28 @@ import { Planets } from '../Types/appTypes';
 import ErrorBtn from '../ErrorBoundary/ErrorBtn';
 import React from 'react';
 import useHandleLS from '../Hooks/useHandleLS';
-import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setPageCount } from '../Store/Pagination/pageSlice';
 import { useGetPlanetQuery, useGetPlanetsQuery } from '../Store/api';
 import { setPlanets } from '../Store/Planets/planetSlice';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
+import { useRouter } from 'next/router';
 
 const MainPage = () => {
   const [search, setSearch] = useState('');
   const [planetsData, setPlanetsData] = useState<Planets[]>([]);
   const { setPrevSearch } = useHandleLS();
-  const { id } = useParams();
+  const router = useRouter();
+  const { id } = router.query;
   const dispatch = useDispatch();
   const {
     data: prevSearchedData,
     isLoading: searchLoading,
     isFetching: searchFetching,
   } = useGetPlanetQuery(
-    typeof window !== 'undefined' ? localStorage.getItem('previous') ?? '' : '',
+    typeof window !== 'undefined'
+      ? (localStorage.getItem('previous') ?? '')
+      : '',
   );
   const { data: searchedData } = useGetPlanetQuery(search);
   const {
@@ -75,6 +78,7 @@ const MainPage = () => {
       if (pageResult) {
         setPlanetsData(pageResult);
         dispatch(setPlanets(pageResult));
+        dispatch(setPageCount((resultData?.count ?? 0) / pageResult.length));
       }
     } else if (previous) {
       if (prevSearchedDataResult) {

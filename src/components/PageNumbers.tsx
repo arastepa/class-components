@@ -1,48 +1,48 @@
-import { NavLink, useParams } from 'react-router-dom';
+import Link from 'next/link';
 import styles from '../Styles/app.module.css';
 import { useSelector } from 'react-redux';
 import { RootState } from '../Store/store';
 import { useContext } from 'react';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
+import { useRouter } from 'next/router';
 
 const PageNumbers = () => {
-  const { id } = useParams();
+  const router = useRouter();
+  const { id } = router.query;
   const pageCount = useSelector((state: RootState) => state.pagesRed.pageCount);
-  const currentPage = id ? parseInt(id, 10) : 1;
+  const currentPage = id ? parseInt(id[0], 10) : 1;
   const { theme } = useContext(ThemeContext);
 
   return (
     <div className={styles.pages}>
-      <NavLink
+      <Link
         className={`${styles.nav_link} ${theme === 'light' ? styles.lightTheme : styles.darkTheme} ${styles.pageNumber}`}
-        to={`/page/${Math.max(currentPage - 1, 1)}`}
+        href={`/page/${Math.max(currentPage - 1, 1)}`}
         key="prev"
       >
         Prev
-      </NavLink>
+      </Link>
 
       {new Array(pageCount).fill(null).map((_, index) => {
         return (
-          <NavLink
+          <Link
+            className={`${styles.pageNumber} ${styles.pageNumber} ${theme === 'light' ? styles.lightTheme : styles.darkTheme}`}
             data-testid={`link-${index}`}
-            className={({ isActive }) =>
-              `${isActive ? `${styles.active} ${styles.pageNumber}` : `${styles.nav_link} ${styles.pageNumber}`} ${theme === 'light' ? styles.lightTheme : styles.darkTheme}`
-            }
-            to={`/page/${index + 1}`}
+            href={`/page/${index + 1}`}
             key={index}
           >
             {index + 1}
-          </NavLink>
+          </Link>
         );
       })}
 
-      <NavLink
+      <Link
         className={`${styles.nav_link} ${styles.pageNumber} ${theme === 'light' ? styles.lightTheme : styles.darkTheme} ${styles.pageNumber}`}
-        to={`/page/${Math.min(currentPage + 1, pageCount ?? 0)}`}
+        href={`/page/${Math.min(currentPage + 1, pageCount ?? 0)}`}
         key="next"
       >
         Next
-      </NavLink>
+      </Link>
     </div>
   );
 };
