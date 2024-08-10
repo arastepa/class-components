@@ -1,13 +1,15 @@
 import { AppProps } from 'next/app';
 import { ThemeProvider } from '../ThemeContext/ThemeContext';
-import StoreProvider from '../Store/storeProvider';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import '../Styles/globals.css';
 import Head from 'next/head';
+import { wrapper } from '../Store/store';
+import { Provider } from 'react-redux';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const { store } = wrapper.useWrappedStore(pageProps);
   return (
-    <StoreProvider>
+    <Provider store={store}>
       <ErrorBoundary>
         <ThemeProvider>
           <Head>
@@ -22,7 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />;
         </ThemeProvider>
       </ErrorBoundary>
-    </StoreProvider>
+    </Provider>
   );
 }
 

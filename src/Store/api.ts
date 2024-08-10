@@ -1,9 +1,17 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { PlanetDetails, Planets } from '../Types/appTypes';
+import { HYDRATE } from 'next-redux-wrapper';
+import { createApi } from './createApi';
 
 export const planetsApi = createApi({
   reducerPath: 'planetsApi',
   baseQuery: fetchBaseQuery({ baseUrl: `https://swapi.dev/api/` }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      console.log('hiiiii');
+      return action.payload[reducerPath];
+    }
+  },
   endpoints: (builder) => ({
     getAllPlanets: builder.query<{ count: number; results: Planets[] }, void>({
       query: () => 'planets',
@@ -25,4 +33,5 @@ export const {
   useGetPlanetsQuery,
   useGetPlanetQuery,
   useGetPlanetDetailQuery,
+  util: { getRunningQueriesThunk },
 } = planetsApi;
