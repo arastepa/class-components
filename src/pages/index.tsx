@@ -23,18 +23,8 @@ import { skipToken } from '@reduxjs/toolkit/query';
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
     const { id } = context.query;
-    const previousSearch = context.req.cookies.previous || '';
     store.dispatch(planetsApi.endpoints.getPlanets.initiate(id ? +id : 1));
-
-    if (previousSearch) {
-      store.dispatch(planetsApi.endpoints.getPlanet.initiate(previousSearch));
-    }
-
-    console.log(
-      await Promise.all(
-        store.dispatch(planetsApi.util.getRunningQueriesThunk()),
-      ),
-    );
+    await Promise.all(store.dispatch(planetsApi.util.getRunningQueriesThunk()));
     return { props: {} };
   },
 );
@@ -80,7 +70,7 @@ const MainPage = () => {
     [prevSearchedData],
   );
 
-  let pageResult: Planets[] | undefined = useMemo(
+  const pageResult: Planets[] | undefined = useMemo(
     () =>
       resultData
         ? resultData.results.map((planet: Planets) => ({
@@ -93,20 +83,24 @@ const MainPage = () => {
     [resultData],
   );
 
-  if (prevSearchedDataResult) pageResult = prevSearchedDataResult;
-
   useEffect(() => {
     const previous = localStorage.getItem('previous');
     if (pageResult) {
       dispatch(setPlanets(pageResult));
       dispatch(setPageCount((resultData?.count ?? 0) / pageResult.length));
     }
-    if (previous) {
+    if (previous && prevSearchedDataResult) {
+      dispatch(setPlanets(prevSearchedDataResult));
       dispatch(
         setPageCount(pageResult ? Math.ceil(pageResult.length / 10) : 0),
       );
     }
-  }, [dispatch, pageResult, resultData]);
+  }, [dispatch, pageResult, resultData, prevSearchedDataResult]);
+
+  useEffect(() => {
+    const previous = localStorage.getItem('previous');
+    if (previous) setSearch(previous);
+  }, []);
 
   const { theme, setTheme } = useContext(ThemeContext);
 
@@ -118,18 +112,18 @@ const MainPage = () => {
     ev.preventDefault();
     try {
       setPrevSearch(search);
-      const prevoius = localStorage.getItem('previous') || search;
-      await getResponse(prevoius);
+      await getResponse();
     } catch (error) {
       return null;
     }
   }
 
-  const getResponse = async (prevoius: string) => {
+  const getResponse = async () => {
     try {
       let response: Planets[] | undefined;
-      if (search === '' && prevoius === '') {
+      if (search === '') {
         response = pageResult;
+        console.log(response);
         if (pageResult) {
           dispatch(setPageCount((resultData?.count ?? 0) / pageResult.length));
         }
