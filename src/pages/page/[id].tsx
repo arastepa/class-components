@@ -37,7 +37,6 @@ const MainPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const { data: resultData } = useGetPlanetsQuery(id === undefined ? 1 : +id);
-
   const { data: prevSearchedData } = useGetPlanetQuery(
     typeof window !== 'undefined'
       ? localStorage.getItem('previous') || skipToken

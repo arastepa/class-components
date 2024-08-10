@@ -8,7 +8,6 @@ export const planetsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: `https://swapi.dev/api/` }),
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
-      console.log('hiiiii');
       return action.payload[reducerPath];
     }
   },
