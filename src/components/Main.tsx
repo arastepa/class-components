@@ -130,7 +130,11 @@ const Main = (props: { planets: Planets[]; pageCount: number }) => {
             {details && <Details details={details} setDetails={setDetails} />}
           </div>
           {selected.length !== 0 && (
-            <FlyOut selected={selected} downloadUrl={getUrl()} />
+            <FlyOut
+              selected={selected}
+              onSetSelected={setSelected}
+              downloadUrl={getUrl()}
+            />
           )}
           <PageNumbers pageCount={props.pageCount} />
         </div>

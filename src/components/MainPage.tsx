@@ -50,7 +50,7 @@ export const MainPage = (props: {
           {`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Theme`}
         </button>
       </div>
-      <Search onGetResponse={getResponse} />
+      <Search onGetResponse={getResponse} onSetPlanets={setPlanets} />
       <hr />
       <Main planets={planets} pageCount={pageCount} />
     </div>
