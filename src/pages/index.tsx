@@ -18,6 +18,7 @@ import { ThemeContext } from '../ThemeContext/ThemeContext';
 import { RootState, wrapper } from '../Store/store';
 import { useRouter } from 'next/router';
 import { skipToken } from '@reduxjs/toolkit/query';
+import Header from '../components/Header';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const getServerSideProps = wrapper.getServerSideProps(
@@ -144,6 +145,7 @@ const MainPage = () => {
 
   return (
     <div className={styles.container}>
+      <Header />
       <div className={styles.btns}>
         <ErrorBtn />
         <button className={styles.switch} onClick={toggleTheme}>
