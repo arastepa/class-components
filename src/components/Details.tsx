@@ -1,7 +1,7 @@
 'use client';
 
 import styles from '../Styles/app.module.css';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { PlanetDetails } from '../Types/appTypes';
 import { usePathname, useSearchParams } from 'next/navigation';
 
@@ -15,12 +15,10 @@ const Details = ({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { id } = useParams();
   const handleClose = () => {
     setDetails(null);
-
-    const id = searchParams.get('id');
     const details = searchParams.get('details');
-
     if (pathname.startsWith('/page')) {
       router.push(`/page/${id}`);
     } else if (!pathname.startsWith('/page') && details) {

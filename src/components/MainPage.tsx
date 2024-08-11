@@ -4,12 +4,9 @@ import { useContext, useState } from 'react';
 import Search from '../components/Search';
 import Main from '../components/Main';
 import styles from '../Styles/app.module.css';
-// import { Planets } from '../Types/appTypes';
 import ErrorBtn from '../ErrorBoundary/ErrorBtn';
 import React from 'react';
-// import useHandleLS from '../Hooks/useHandleLS';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
-import { useParams } from 'next/navigation';
 import { getPageCount, getPlanets } from '../Services/getPlanets';
 import { Planets } from '../Types/appTypes';
 
@@ -19,7 +16,6 @@ export const MainPage = (props: {
 }) => {
   const [pageCount, setPageCount] = useState(props.pageCount);
   const [planets, setPlanets] = useState(props.planetsData);
-  const { id } = useParams();
   const { theme, setTheme } = useContext(ThemeContext);
 
   const toggleTheme = () => {
@@ -34,7 +30,7 @@ export const MainPage = (props: {
         setPageCount(await getPageCount());
       } else if (search !== '') {
         response = await getPlanets(
-          `https://swapi.dev/api/planets/?search=${search}&page=${id ? id[0] : 1}`,
+          `https://swapi.dev/api/planets/?search=${search}`,
         );
         setPageCount(response ? Math.ceil(response.length / 10) : 0);
       }
