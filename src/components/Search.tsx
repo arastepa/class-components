@@ -4,7 +4,6 @@ import styles from '../Styles/app.module.css';
 import React, { useEffect, useState } from 'react';
 import useHandleLS from '../Hooks/useHandleLS';
 import { Planets } from '../Types/appTypes';
-import { getPlanets } from '../Services/getPlanets';
 
 interface SearchProps {
   onGetResponse: (value: string) => void;
@@ -17,14 +16,7 @@ const Search = (props: SearchProps) => {
   const setPlanets = props.onSetPlanets;
   useEffect(() => {
     const previous = localStorage.getItem('previous');
-    if (previous) {
-      getPlanets(`https://swapi.dev/api/planets/?search=${previous}`).then(
-        (planets: Planets[]) => {
-          setPlanets(planets);
-        },
-      );
-      setSearch(previous);
-    }
+    if (previous) setSearch(previous);
   }, [setPlanets]);
   async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
