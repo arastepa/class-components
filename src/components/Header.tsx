@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <div className={styles.header} data-testid="header">
       <div className={styles.logo}>
-        <Image src={Wars} alt="" />
+        <Image src={Wars} alt="" priority={true} />
       </div>
     </div>
   );

@@ -83,16 +83,9 @@ const MainPage = () => {
   );
 
   useEffect(() => {
-    const previous = localStorage.getItem('previous');
     if (pageResult) {
       dispatch(setPlanets(pageResult));
       dispatch(setPageCount((resultData?.count ?? 0) / pageResult.length));
-    }
-    if (previous && prevSearchedDataResult) {
-      dispatch(setPlanets(prevSearchedDataResult));
-      dispatch(
-        setPageCount(pageResult ? Math.ceil(pageResult.length / 10) : 0),
-      );
     }
   }, [dispatch, pageResult, resultData, prevSearchedDataResult]);
 
