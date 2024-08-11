@@ -14,7 +14,7 @@ const Search = (props: SearchProps) => {
           type="text"
           defaultValue={
             typeof window !== 'undefined'
-              ? localStorage.getItem('previous') ?? ''
+              ? (localStorage.getItem('previous') ?? '')
               : ''
           }
           onChange={(val) => {
