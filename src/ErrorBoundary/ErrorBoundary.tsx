@@ -1,3 +1,5 @@
+'use client';
+
 import { Component } from 'react';
 import { ErrorProps, ErrorState } from '../Types/errorBoundary';
 import styles from '../Styles/app.module.css';

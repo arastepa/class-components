@@ -1,3 +1,5 @@
+'use client';
+
 import { useDispatch } from 'react-redux';
 import styles from '../Styles/app.module.css';
 import { Planets } from '../Types/appTypes';

@@ -1,15 +1,13 @@
+'use client';
+
 import Link from 'next/link';
 import styles from '../Styles/app.module.css';
-import { useSelector } from 'react-redux';
-import { RootState } from '../Store/store';
 import { useContext } from 'react';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
-import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
 
-const PageNumbers = () => {
-  const router = useRouter();
-  const { id } = router.query;
-  const pageCount = useSelector((state: RootState) => state.pagesRed.pageCount);
+const PageNumbers = ({ pageCount }: { pageCount: number }) => {
+  const { id } = useParams();
   const currentPage = id ? parseInt(id[0], 10) : 1;
   const { theme } = useContext(ThemeContext);
 

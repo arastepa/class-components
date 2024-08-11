@@ -1,3 +1,5 @@
+'use client';
+
 import styles from '../Styles/app.module.css';
 import Wars from '../assets/star-wars.png';
 

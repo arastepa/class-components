@@ -1,46 +1,48 @@
+'use client';
+
 import { PlanetDetails, Planets } from '../Types/appTypes';
 import styles from '../Styles/app.module.css';
 import PageNumbers from './PageNumbers';
 import { useContext, useEffect, useState } from 'react';
 import Details from './Details';
-import { useGetPlanetDetailQuery } from '../Store/api';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  rmSelected,
-  setPlanetDetail,
-  setSelected,
-} from '../Store/Planets/planetSlice';
-import { RootState } from '../Store/store';
-import { ThemeContext } from '../ThemeContext/ThemeContext';
 import { FlyOut } from './Flyout';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from 'next/navigation';
+import { getPlanet } from '../Services/getPlanets';
+import { ThemeContext } from '../ThemeContext/ThemeContext';
 
-const Main = (props: { planets: Planets[] }) => {
+const Main = (props: { planets: Planets[]; pageCount: number }) => {
   const [details, setDetails] = useState<PlanetDetails | null>(null);
-  const router = useRouter();
-  const searchParams = new URLSearchParams(router.asPath.split('?')[1] || '');
-  const { id } = router.query;
-  const selected = useSelector((state: RootState) => state.planets.selected);
-  const dispatch = useDispatch();
+  const [selected, setSelected] = useState<Planets[]>([]);
+  const [loading, setLoading] = useState(false);
+  const { id } = useParams();
+  const searchParams = useSearchParams();
   const detail = searchParams.get('details');
   const planetId = detail
     ? (+(id ?? 1) - 1) * props.planets.length + +detail
     : null;
-  const {
-    data: planetDetails,
-    isLoading,
-    isFetching,
-  } = useGetPlanetDetailQuery(planetId, {
-    skip: !planetId,
-  });
+  const pathname = usePathname();
+  const router = useRouter();
+  const params = useParams();
   const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
-    if (planetDetails && planetId) {
-      dispatch(setPlanetDetail(planetDetails));
-      setDetails(planetDetails);
+    setLoading(true);
+    if (detail && planetId) {
+      getPlanet(
+        `https://swapi.dev/api/planets/${(+(id ?? 1) - 1) * props.planets.length + +detail}`,
+      ).then((planet: PlanetDetails | null) => {
+        if (planet) setDetails(planet);
+        setLoading(false);
+      });
     }
-  }, [props.planets.length, planetId, planetDetails, dispatch]);
+    setLoading(false);
+  }, [props.planets.length, planetId, detail, id]);
 
   const generateCSV = (data: Planets[]) => {
     const header = 'Name,Gravity,Population,Climate\n';
@@ -53,6 +55,18 @@ const Main = (props: { planets: Planets[] }) => {
     return `${header}${rows}`;
   };
 
+  const handleCheckboxChange = (planet: Planets, checked: boolean) => {
+    if (checked) {
+      setSelected((prevSelected) => [...prevSelected, planet]);
+    } else {
+      setSelected((prevSelected) =>
+        prevSelected.filter(
+          (selectedPlanet) => selectedPlanet.name !== planet.name,
+        ),
+      );
+    }
+  };
+
   const getUrl = () => {
     const csvContent = generateCSV(selected);
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -61,12 +75,8 @@ const Main = (props: { planets: Planets[] }) => {
   };
 
   const handleOpen = (index: number) => {
-    const { pathname } = router;
     if (pathname.startsWith('/page')) {
-      router.push({
-        pathname: '/page/[id]',
-        query: { id: id, details: index + 1 },
-      });
+      router.push(`/page/${params.id}?details=${index + 1}`);
     } else {
       router.push(`/?details=${index + 1}`);
     }
@@ -74,7 +84,7 @@ const Main = (props: { planets: Planets[] }) => {
 
   return (
     <>
-      {isLoading || isFetching ? (
+      {loading ? (
         <div className={styles.spinner}></div>
       ) : (
         <div
@@ -95,11 +105,9 @@ const Main = (props: { planets: Planets[] }) => {
                         checked={
                           !!selected.find((el) => el.name === planet.name)
                         }
-                        onChange={(e) => {
-                          e.target.checked
-                            ? dispatch(setSelected(planet))
-                            : dispatch(rmSelected(planet));
-                        }}
+                        onChange={(e) =>
+                          handleCheckboxChange(planet, e.target.checked)
+                        }
                       />
                       <li
                         onClick={() => {
@@ -119,12 +127,12 @@ const Main = (props: { planets: Planets[] }) => {
                 })}
               </ul>
             )}
-            {details && <Details />}
+            {details && <Details details={details} setDetails={setDetails} />}
           </div>
           {selected.length !== 0 && (
             <FlyOut selected={selected} downloadUrl={getUrl()} />
           )}
-          <PageNumbers />
+          <PageNumbers pageCount={props.pageCount} />
         </div>
       )}
     </>

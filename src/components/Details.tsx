@@ -1,28 +1,35 @@
-import styles from '../Styles/app.module.css';
-import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../Store/store';
-import { setPlanetDetail } from '../Store/Planets/planetSlice';
+'use client';
 
-const Details = () => {
-  const details = useSelector((state: RootState) => state.planets.planetDetail);
-  const dispatch = useDispatch();
+import styles from '../Styles/app.module.css';
+import { useRouter } from 'next/navigation';
+import { PlanetDetails } from '../Types/appTypes';
+import { usePathname, useSearchParams } from 'next/navigation';
+
+const Details = ({
+  details,
+  setDetails,
+}: {
+  details: PlanetDetails;
+  setDetails: (details: PlanetDetails | null) => void;
+}) => {
   const router = useRouter();
-  const { id } = router.query;
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const handleClose = () => {
-    dispatch(setPlanetDetail(null));
-    const { pathname, query } = router;
+    setDetails(null);
+
+    const id = searchParams.get('id');
+    const details = searchParams.get('details');
+
     if (pathname.startsWith('/page')) {
-      router.push({
-        pathname,
-        query: { id: id },
-      });
-    } else if (!pathname.startsWith('/page') && query.details) {
+      router.push(`/page/${id}`);
+    } else if (!pathname.startsWith('/page') && details) {
       router.push('/');
     } else {
       router.push('/');
     }
   };
+
   if (details) {
     return (
       <div className={styles.details}>
