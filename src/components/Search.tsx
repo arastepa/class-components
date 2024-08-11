@@ -14,20 +14,18 @@ interface SearchProps {
 const Search = (props: SearchProps) => {
   const { setPrevSearch } = useHandleLS();
   const [search, setSearch] = useState('');
-  const [loading, setLoading] = useState(false);
+  const setPlanets = props.onSetPlanets;
   useEffect(() => {
-    setLoading(true);
     const previous = localStorage.getItem('previous');
     if (previous) {
-      getPlanets(`https://swapi.dev/api/planets/?search=${search}`).then(
+      getPlanets(`https://swapi.dev/api/planets/?search=${previous}`).then(
         (planets: Planets[]) => {
-          setLoading(false);
-          props.onSetPlanets(planets);
+          setPlanets(planets);
         },
       );
       setSearch(previous);
     }
-  }, [props, search]);
+  }, [setPlanets]);
   async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
     try {
@@ -43,29 +41,25 @@ const Search = (props: SearchProps) => {
 
   return (
     <>
-      {loading ? (
-        console.log('hi')
-      ) : (
-        <div className={styles.search}>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              defaultValue={
-                typeof window !== 'undefined'
-                  ? (localStorage.getItem('previous') ?? '')
-                  : ''
-              }
-              onChange={(val) => {
-                handleChange(val.target.value);
-              }}
-              className={styles.input}
-              name="search"
-              data-testid="search"
-            />
-            <input type="submit" value="find" data-testid="searching" />
-          </form>
-        </div>
-      )}
+      <div className={styles.search}>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            defaultValue={
+              typeof window !== 'undefined'
+                ? (localStorage.getItem('previous') ?? '')
+                : ''
+            }
+            onChange={(val) => {
+              handleChange(val.target.value);
+            }}
+            className={styles.input}
+            name="search"
+            data-testid="search"
+          />
+          <input type="submit" value="find" data-testid="searching" />
+        </form>
+      </div>
     </>
   );
 };
