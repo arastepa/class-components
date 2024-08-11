@@ -9,6 +9,7 @@ import React from 'react';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
 import { getPageCount, getPlanets } from '../Services/getPlanets';
 import { Planets } from '../Types/appTypes';
+import Header from './Header';
 
 export const MainPage = (props: {
   planetsData: Planets[];
@@ -44,6 +45,7 @@ export const MainPage = (props: {
 
   return (
     <div className={styles.container}>
+      <Header />
       <div className={styles.btns}>
         <ErrorBtn />
         <button className={styles.switch} onClick={toggleTheme}>
