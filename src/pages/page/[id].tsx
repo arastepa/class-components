@@ -122,7 +122,6 @@ const MainPage = () => {
       let response: Planets[] | undefined;
       if (search === '') {
         response = pageResult;
-        console.log(response);
         if (pageResult) {
           dispatch(setPageCount((resultData?.count ?? 0) / pageResult.length));
         }

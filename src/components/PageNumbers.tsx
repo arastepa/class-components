@@ -26,7 +26,7 @@ const PageNumbers = () => {
       {new Array(pageCount).fill(null).map((_, index) => {
         return (
           <Link
-            className={`${styles.pageNumber} ${styles.pageNumber} ${theme === 'light' ? styles.lightTheme : styles.darkTheme}`}
+            className={`${styles.pageNumber} ${styles.desktop} ${styles.pageNumber} ${theme === 'light' ? styles.lightTheme : styles.darkTheme}`}
             data-testid={`link-${index}`}
             href={`/page/${index + 1}`}
             key={index}

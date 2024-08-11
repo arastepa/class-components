@@ -33,8 +33,6 @@ const Main = (props: { planets: Planets[] }) => {
   } = useGetPlanetDetailQuery(planetId, {
     skip: !planetId,
   });
-  console.log('det:', planetId);
-  console.log('det:', planetDetails);
   const { theme } = useContext(ThemeContext);
 
   useEffect(() => {

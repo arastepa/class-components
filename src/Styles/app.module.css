@@ -173,3 +173,10 @@ to {
     background-color: #8A9796;
     color: white;
 }
+
+@media(max-width: 940px)
+{
+    .desktop{
+        display: none;
+    }
+}
