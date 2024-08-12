@@ -1,18 +1,21 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
-import { Provider } from 'react-redux';
-import App from '../App';
-import { store } from '../Store/store';
+import { renderWithProviders } from './rennderWithProviders';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { mockServer } from './mocks/mockServer';
+import MainPage from '../pages';
+import { createMockRouter } from './createMockRouter';
+import MainWithPage from '../pages/page/[id]';
 
 mockServer();
 
 describe('Main component', () => {
   test('renders the specified number of cards', async () => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>,
+    const router = createMockRouter({ query: { id: '1' } });
+    renderWithProviders(
+      <RouterContext.Provider value={router}>
+        <MainPage />,
+      </RouterContext.Provider>,
     );
 
     const cards = await waitFor(() => {
@@ -22,22 +25,11 @@ describe('Main component', () => {
   });
 
   test('renders the relevant card data', async () => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>,
-    );
-
-    const tatooineCard = await screen.findByText('Name: Tatooine');
-
-    expect(tatooineCard).toBeInTheDocument();
-  });
-
-  test('renders the relevant card data', async () => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>,
+    const router = createMockRouter({ query: { id: '1' } });
+    renderWithProviders(
+      <RouterContext.Provider value={router}>
+        <MainWithPage />,
+      </RouterContext.Provider>,
     );
 
     const tatooineCard = await screen.findByText('Name: Tatooine');

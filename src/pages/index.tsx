@@ -3,7 +3,6 @@ import Search from '../components/Search';
 import Main from '../components/Main';
 import styles from '../Styles/app.module.css';
 import { Planets } from '../Types/appTypes';
-import ErrorBtn from '../ErrorBoundary/ErrorBtn';
 import React from 'react';
 import useHandleLS from '../Hooks/useHandleLS';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +18,7 @@ import { RootState, wrapper } from '../Store/store';
 import { useRouter } from 'next/router';
 import { skipToken } from '@reduxjs/toolkit/query';
 import Header from '../components/Header';
+import ErrorBtn from '../ErrorBoundary/ErrorBtn';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const getServerSideProps = wrapper.getServerSideProps(
@@ -83,7 +83,6 @@ const MainPage = () => {
         : undefined,
     [resultData],
   );
-
   useEffect(() => {
     if (pageResult) {
       dispatch(setPlanets(pageResult));

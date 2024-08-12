@@ -1,47 +1,13 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import planetReducer from '../Store/Planets/planetSlice';
+import { screen, fireEvent } from '@testing-library/react';
 import Main from '../components/Main';
-import { Planets } from '../Types/appTypes';
 import '@testing-library/jest-dom';
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
-import { MemoryRouter } from 'react-router-dom';
-import { planetsApi } from '../Store/api';
-import pagesReducer from '../Store/Pagination/pageSlice';
 import { mockServer } from './mocks/mockServer';
+import { createMockRouter } from './createMockRouter';
+import { renderWithProviders } from './rennderWithProviders';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 
 mockServer();
-
-const mockPlanets: Planets[] = [
-  {
-    name: 'Tatooine',
-    climate: 'arid',
-    gravity: '1 standard',
-    population: '200000',
-  },
-];
-
-const renderWithRedux = (component: JSX.Element) => {
-  const store = configureStore({
-    reducer: {
-      planets: planetReducer,
-      pagesRed: pagesReducer,
-      [planetsApi.reducerPath]: planetsApi.reducer,
-    },
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(planetsApi.middleware),
-  });
-
-  return {
-    ...render(
-      <Provider store={store}>
-        <MemoryRouter>{component}</MemoryRouter>
-      </Provider>,
-    ),
-    store,
-  };
-};
 
 beforeAll(() => {
   global.URL.createObjectURL = vi.fn(() => 'mock-url');
@@ -53,7 +19,22 @@ afterAll(() => {
 
 describe('Main Component Flyout', () => {
   test('displays flyout with buttons when items are selected', () => {
-    renderWithRedux(<Main planets={mockPlanets} />);
+    const router = createMockRouter({ query: { id: '1' } });
+    renderWithProviders(
+      <RouterContext.Provider value={router}>
+        <Main
+          planets={[
+            {
+              name: 'Tatooine',
+              climate: 'arid',
+              gravity: '1 standard',
+              population: '200000',
+            },
+          ]}
+        />
+        ,
+      </RouterContext.Provider>,
+    );
 
     expect(screen.queryByText(/items selected/i)).not.toBeInTheDocument();
     fireEvent.click(screen.getByRole('checkbox'));
@@ -67,7 +48,22 @@ describe('Main Component Flyout', () => {
   });
 
   test('clears selected items when "unselect all" is clicked', () => {
-    renderWithRedux(<Main planets={mockPlanets} />);
+    const router = createMockRouter({ query: { id: '1' } });
+    renderWithProviders(
+      <RouterContext.Provider value={router}>
+        <Main
+          planets={[
+            {
+              name: 'Tatooine',
+              climate: 'arid',
+              gravity: '1 standard',
+              population: '200000',
+            },
+          ]}
+        />
+        ,
+      </RouterContext.Provider>,
+    );
     fireEvent.click(screen.getByRole('checkbox'));
     expect(screen.getByText('1 items selected')).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: /unselect all/i }));

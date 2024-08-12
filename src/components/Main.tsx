@@ -34,13 +34,12 @@ const Main = (props: { planets: Planets[] }) => {
     skip: !planetId,
   });
   const { theme } = useContext(ThemeContext);
-
   useEffect(() => {
     if (planetDetails && planetId) {
       dispatch(setPlanetDetail(planetDetails));
       setDetails(planetDetails);
     }
-  }, [props.planets.length, planetId, planetDetails, dispatch]);
+  }, [planetId, planetDetails, dispatch]);
 
   const generateCSV = (data: Planets[]) => {
     const header = 'Name,Gravity,Population,Climate\n';
@@ -62,6 +61,7 @@ const Main = (props: { planets: Planets[] }) => {
 
   const handleOpen = (index: number) => {
     const { pathname } = router;
+    console.log('pp:', pathname);
     if (pathname.startsWith('/page')) {
       router.push({
         pathname: '/page/[id]',

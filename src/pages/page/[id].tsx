@@ -3,7 +3,6 @@ import Search from '../../components/Search';
 import Main from '../../components/Main';
 import styles from '../../Styles/app.module.css';
 import { Planets } from '../../Types/appTypes';
-import ErrorBtn from '../../ErrorBoundary/ErrorBtn';
 import React from 'react';
 import useHandleLS from '../../Hooks/useHandleLS';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,6 +17,8 @@ import { ThemeContext } from '../../ThemeContext/ThemeContext';
 import { RootState, wrapper } from '../../Store/store';
 import { useRouter } from 'next/router';
 import { skipToken } from '@reduxjs/toolkit/query';
+import Header from '../../components/Header';
+import ErrorBtn from '../../ErrorBoundary/ErrorBtn';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const getServerSideProps = wrapper.getServerSideProps(
@@ -29,7 +30,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
   },
 );
 
-const MainPage = () => {
+const MainWithPage = () => {
   const [search, setSearch] = useState('');
   const planetsData = useSelector((state: RootState) => state.planets.items);
   const { setPrevSearch } = useHandleLS();
@@ -37,6 +38,7 @@ const MainPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const { data: resultData } = useGetPlanetsQuery(id === undefined ? 1 : +id);
+
   const { data: prevSearchedData } = useGetPlanetQuery(
     typeof window !== 'undefined'
       ? localStorage.getItem('previous') || skipToken
@@ -89,11 +91,6 @@ const MainPage = () => {
     }
   }, [dispatch, pageResult, resultData, prevSearchedDataResult]);
 
-  useEffect(() => {
-    const previous = localStorage.getItem('previous');
-    if (previous) setSearch(previous);
-  }, []);
-
   const { theme, setTheme } = useContext(ThemeContext);
 
   const toggleTheme = () => {
@@ -130,23 +127,24 @@ const MainPage = () => {
     }
   };
 
-  const handleChange = (val: string) => {
-    setSearch(val);
-  };
-
   return (
     <div className={styles.container}>
+      <Header />
       <div className={styles.btns}>
         <ErrorBtn />
         <button className={styles.switch} onClick={toggleTheme}>
           {`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Theme`}
         </button>
       </div>
-      <Search onHandleSubmit={handleSubmit} onHandleChange={handleChange} />
+      <Search
+        onHandleSubmit={handleSubmit}
+        search={search}
+        setSearch={setSearch}
+      />
       <hr />
       <Main planets={planetsData} />
     </div>
   );
 };
 
-export default MainPage;
+export default MainWithPage;
