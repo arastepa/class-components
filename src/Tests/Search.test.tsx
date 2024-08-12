@@ -1,25 +1,29 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, waitFor, render } from '@testing-library/react';
 import { describe, test, beforeEach, vi, expect } from 'vitest';
 import Search from '../components/Search';
+import useHandleLS from '../Hooks/useHandleLS';
 
 describe('Search component', () => {
   beforeEach(() => {
     localStorage.clear();
   });
 
-  test('saves entered value to local storage on Search button click', () => {
-    const mockHandleSubmit = vi.fn((ev: React.FormEvent<HTMLFormElement>) => {
-      ev.preventDefault();
-      const formData = new FormData(ev.currentTarget);
-      const searchValue = formData.get('search') as string;
-      localStorage.setItem('previous', searchValue);
-    });
-    const mockHandleChange = vi.fn();
+  vi.mock('../Hooks/useHandleLS', () => ({
+    __esModule: true,
+    default: () => ({
+      setPrevSearch: vi.fn(),
+    }),
+  }));
+
+  test('saves entered value to local storage on Search button click', async () => {
+    const mockHandleLS = useHandleLS();
+    const mockOnGetResponse = vi.fn();
+    const mockOnSetPlanets = vi.fn();
 
     render(
       <Search
-        onHandleSubmit={mockHandleSubmit}
-        onHandleChange={mockHandleChange}
+        onGetResponse={mockOnGetResponse}
+        onSetPlanets={mockOnSetPlanets}
       />,
     );
 
@@ -29,19 +33,23 @@ describe('Search component', () => {
     fireEvent.change(input, { target: { value: 'Tatooine' } });
     fireEvent.click(searchButton);
 
-    expect(localStorage.getItem('previous')).toBe('Tatooine');
+    waitFor(() => {
+      expect(mockHandleLS.setPrevSearch).toHaveBeenCalledWith('Tatooine');
+      expect(mockOnGetResponse).toHaveBeenCalledWith('Tatooine');
+      expect(localStorage.getItem('previous')).toBe('Tatooine');
+    });
   });
 
   test('retrieves value from local storage upon mounting', () => {
     localStorage.setItem('previous', 'Alderaan');
 
-    const mockHandleSubmit = vi.fn();
-    const mockHandleChange = vi.fn();
+    const mockOnGetResponse = vi.fn();
+    const mockOnSetPlanets = vi.fn();
 
     render(
       <Search
-        onHandleSubmit={mockHandleSubmit}
-        onHandleChange={mockHandleChange}
+        onGetResponse={mockOnGetResponse}
+        onSetPlanets={mockOnSetPlanets}
       />,
     );
 

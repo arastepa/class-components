@@ -1,18 +1,19 @@
 import { render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
 import { describe, expect, test } from 'vitest';
-import App from '../App';
-import { store } from '../Store/store';
+import MainPage from '../components/MainPage';
+import planets from './mockPlanets.json';
 
 describe('Header', () => {
   test('renders header correctly', () => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>,
-    );
+    render(<MainPage planetsData={planets} pageCount={1} />);
 
     const headerElement = screen.getByTestId('header');
+    expect(headerElement).toBeInTheDocument();
+  });
+  test('renders header correctly', () => {
+    render(<MainPage planetsData={planets} pageCount={1} />);
+
+    const headerElement = screen.getByTestId('headerImg');
     expect(headerElement).toBeInTheDocument();
   });
 });

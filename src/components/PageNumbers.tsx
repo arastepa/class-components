@@ -17,6 +17,7 @@ const PageNumbers = ({ pageCount }: { pageCount: number }) => {
         className={`${styles.nav_link} ${theme === 'light' ? styles.lightTheme : styles.darkTheme} ${styles.pageNumber}`}
         href={`/page/${Math.max(currentPage - 1, 1)}`}
         key="prev"
+        data-testid="prev-page"
       >
         Prev
       </Link>
@@ -38,6 +39,7 @@ const PageNumbers = ({ pageCount }: { pageCount: number }) => {
         className={`${styles.nav_link} ${styles.pageNumber} ${theme === 'light' ? styles.lightTheme : styles.darkTheme} ${styles.pageNumber}`}
         href={`/page/${Math.min(currentPage + 1, pageCount ?? 0)}`}
         key="next"
+        data-testid="next-page"
       >
         Next
       </Link>

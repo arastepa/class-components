@@ -10,5 +10,22 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./src/setupTests.ts'],
+    coverage: {
+      reporter: ['html', 'text'],
+      exclude: [
+        'node_modules/',
+        'dist',
+        '.vite',
+        'vite.config.ts',
+        '.eslintrc.cjs',
+        'src/vite-env.d.ts',
+        '**/*.test.{js,jsx,ts,tsx}',
+        '.next/',
+        'next-env.d.ts',
+        'next.config.js',
+        'src/Types/',
+        '.prettierrc.cjs',
+      ],
+    },
   },
 });

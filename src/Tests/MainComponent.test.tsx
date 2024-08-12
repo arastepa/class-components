@@ -1,44 +1,23 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
-import { Provider } from 'react-redux';
-import App from '../App';
-import { store } from '../Store/store';
 import { mockServer } from './mocks/mockServer';
+import planets from './mockPlanets.json';
+import MainPage from '../components/MainPage';
 
 mockServer();
 
 describe('Main component', () => {
   test('renders the specified number of cards', async () => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>,
-    );
+    render(<MainPage planetsData={planets} pageCount={1} />);
 
     const cards = await waitFor(() => {
       return screen.getAllByRole('listitem');
     });
-    expect(cards).toHaveLength(1);
+    expect(cards).toHaveLength(2);
   });
 
   test('renders the relevant card data', async () => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>,
-    );
-
-    const tatooineCard = await screen.findByText('Name: Tatooine');
-
-    expect(tatooineCard).toBeInTheDocument();
-  });
-
-  test('renders the relevant card data', async () => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>,
-    );
+    render(<MainPage planetsData={planets} pageCount={1} />);
 
     const tatooineCard = await screen.findByText('Name: Tatooine');
 

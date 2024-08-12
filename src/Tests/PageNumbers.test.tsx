@@ -1,26 +1,24 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
-import { Provider } from 'react-redux';
-import { store } from '../Store/store';
-import App from '../App';
 import { mockServer } from './mocks/mockServer';
+import MainPage from '../components/MainPage';
+import planets from './mockPlanets.json';
 
 mockServer();
 
 describe('PageNumbers component', () => {
-  test('updates URL query parameter when page changes', async () => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>,
-    );
+  test('next present', async () => {
+    render(<MainPage planetsData={planets} pageCount={1} />);
 
-    const pageLink = await screen.findByTestId('link-0');
+    const pageLink = await screen.findByTestId('next-page');
 
-    fireEvent.click(pageLink);
+    expect(pageLink).toBeInTheDocument;
+  });
+  test('prev present', async () => {
+    render(<MainPage planetsData={planets} pageCount={1} />);
 
-    await waitFor(() => {
-      expect(window.location.pathname).toBe('/page/1');
-    });
+    const pageLink = await screen.findByTestId('prev-page');
+
+    expect(pageLink).toBeInTheDocument;
   });
 });

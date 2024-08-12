@@ -101,6 +101,7 @@ const Main = (props: { planets: Planets[]; pageCount: number }) => {
                       <input
                         type="checkbox"
                         name="selects"
+                        data-testid={`flyout-${index}`}
                         id=""
                         checked={
                           !!selected.find((el) => el.name === planet.name)
