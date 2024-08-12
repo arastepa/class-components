@@ -91,11 +91,6 @@ const MainPage = () => {
     }
   }, [dispatch, pageResult, resultData, prevSearchedDataResult]);
 
-  useEffect(() => {
-    const previous = localStorage.getItem('previous');
-    if (previous) setSearch(previous);
-  }, []);
-
   const { theme, setTheme } = useContext(ThemeContext);
 
   const toggleTheme = () => {
@@ -132,10 +127,6 @@ const MainPage = () => {
     }
   };
 
-  const handleChange = (val: string) => {
-    setSearch(val);
-  };
-
   return (
     <div className={styles.container}>
       <Header />
@@ -145,7 +136,11 @@ const MainPage = () => {
           {`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Theme`}
         </button>
       </div>
-      <Search onHandleSubmit={handleSubmit} onHandleChange={handleChange} />
+      <Search
+        onHandleSubmit={handleSubmit}
+        search={search}
+        setSearch={setSearch}
+      />
       <hr />
       <Main planets={planetsData} />
     </div>

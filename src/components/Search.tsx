@@ -1,24 +1,28 @@
 import styles from '../Styles/app.module.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface SearchProps {
   onHandleSubmit: (ev: React.FormEvent<HTMLFormElement>) => void;
-  onHandleChange: (value: string) => void;
+  search: string;
+  setSearch: (value: string) => void;
 }
 
 const Search = (props: SearchProps) => {
+  const setSearch = props.setSearch;
+  useEffect(() => {
+    const prev = localStorage.getItem('previous');
+    if (prev) {
+      setSearch(prev);
+    }
+  }, [setSearch]);
   return (
     <div className={styles.search}>
       <form onSubmit={props.onHandleSubmit}>
         <input
           type="text"
-          defaultValue={
-            typeof window !== 'undefined'
-              ? (localStorage.getItem('previous') ?? '')
-              : ''
-          }
+          value={props.search}
           onChange={(val) => {
-            props.onHandleChange(val.target.value);
+            props.setSearch(val.target.value);
           }}
           className={styles.input}
           name="search"
