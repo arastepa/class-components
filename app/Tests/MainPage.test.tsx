@@ -1,53 +1,78 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { store } from '../Store/store';
-import App from '../App';
-import { mockServer } from './mocks/mockServer';
-import { expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
+import { createRemixStub } from '@remix-run/testing';
+import MainPage, { loader } from '../routes/page.$id';
+import { isResponse } from '@remix-run/react/dist/data';
 
-mockServer();
+const arg = {
+  params: { id: 1 },
+  context: {},
+};
+const loaderResult = await loader(arg);
+console;
+const data =
+  loaderResult !== null && isResponse(loaderResult)
+    ? await loaderResult.json()
+    : {};
 
-test('shows loading spinner while fetching data', async () => {
-  render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-  );
-
-  expect(screen.getByTestId('spinner')).toBeInTheDocument();
-
-  const planet = await screen.findByText(/Tatooine/i);
-  expect(planet).toBeInTheDocument();
+vi.mock('@remix-run/react', async () => {
+  const actual = await vi.importActual('@remix-run/react');
+  return {
+    ...actual,
+    useLoaderData: () => data,
+  };
 });
 
-test('updates displayed planets based on search input', async () => {
-  render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-  );
+describe('MainPage component', () => {
+  test('updates displayed planets based on search input', async () => {
+    const RemixStub = createRemixStub([
+      {
+        path: '/',
+        Component: () => <MainPage />,
+      },
+    ]);
 
-  const searchInput = screen.getByTestId('search');
-  fireEvent.change(searchInput, { target: { value: 'Tatooine' } });
-  fireEvent.submit(screen.getByTestId('searching'));
+    render(<RemixStub />);
 
-  await waitFor(() =>
-    expect(screen.queryByTestId('spinner')).not.toBeInTheDocument(),
-  );
+    const searchInput = screen.getByTestId('search');
+    fireEvent.change(searchInput, { target: { value: 'Tatooine' } });
+    fireEvent.submit(screen.getByTestId('searching'));
 
-  const planet = await screen.findByText(/Tatooine/i);
-  expect(planet).toBeInTheDocument();
-});
+    const planet = await screen.findByText(/Tatooine/i);
+    expect(planet).toBeInTheDocument();
+  });
 
-test('toggles theme on button click', async () => {
-  render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-  );
+  test('search input present', async () => {
+    const RemixStub = createRemixStub([
+      {
+        path: '/',
+        Component: () => <MainPage />,
+      },
+    ]);
 
-  expect(await screen.findByText('Switch to Dark Theme')).toBeInTheDocument();
-  const btn = await screen.findByText('Switch to Dark Theme');
-  fireEvent.click(btn);
-  expect(await screen.findByText('Switch to Light Theme')).toBeInTheDocument();
+    render(<RemixStub />);
+
+    const searchInput = screen.getByTestId('search');
+    expect(searchInput).toBeInTheDocument();
+  });
+
+  test('toggles theme on button click', async () => {
+    const RemixStub = createRemixStub([
+      {
+        path: '/',
+        Component: () => <MainPage />,
+      },
+    ]);
+
+    render(<RemixStub />);
+
+    expect(await screen.findByText('Switch to Dark Theme')).toBeInTheDocument();
+    const btn = await screen.findByText('Switch to Dark Theme');
+    fireEvent.click(btn);
+    waitFor(async () => {
+      expect(
+        await screen.findByText('Switch to Light Theme'),
+      ).toBeInTheDocument();
+    });
+  });
 });

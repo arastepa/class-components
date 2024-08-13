@@ -1,44 +1,54 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { describe, expect, test } from 'vitest';
-import { Provider } from 'react-redux';
-import App from '../App';
-import { store } from '../Store/store';
-import { mockServer } from './mocks/mockServer';
+import { describe, expect, test, vi } from 'vitest';
+import { createRemixStub } from '@remix-run/testing';
+import MainPage, { loader } from '../routes/_index';
+import { isResponse } from '@remix-run/react/dist/data';
 
-mockServer();
+const arg = {
+  params: { id: 1 },
+  context: {},
+};
+const loaderResult = await loader(arg);
+console;
+const data =
+  loaderResult !== null && isResponse(loaderResult)
+    ? await loaderResult.json()
+    : {};
+
+vi.mock('@remix-run/react', async () => {
+  const actual = await vi.importActual('@remix-run/react');
+  return {
+    ...actual,
+    useLoaderData: () => data,
+  };
+});
 
 describe('Main component', () => {
   test('renders the specified number of cards', async () => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>,
-    );
+    const RemixStub = createRemixStub([
+      {
+        path: '/',
+        Component: () => <MainPage />,
+      },
+    ]);
+
+    render(<RemixStub />);
 
     const cards = await waitFor(() => {
       return screen.getAllByRole('listitem');
     });
-    expect(cards).toHaveLength(1);
+    expect(cards).toHaveLength(10);
   });
 
   test('renders the relevant card data', async () => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>,
-    );
+    const RemixStub = createRemixStub([
+      {
+        path: '/',
+        Component: () => <MainPage />,
+      },
+    ]);
 
-    const tatooineCard = await screen.findByText('Name: Tatooine');
-
-    expect(tatooineCard).toBeInTheDocument();
-  });
-
-  test('renders the relevant card data', async () => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>,
-    );
+    render(<RemixStub />);
 
     const tatooineCard = await screen.findByText('Name: Tatooine');
 

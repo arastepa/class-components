@@ -1,47 +1,12 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import planetReducer from '../Store/Planets/planetSlice';
-import Main from '../components/Main';
-import { Planets } from '../Types/appTypes';
+import { screen, fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
-import { MemoryRouter } from 'react-router-dom';
-import { planetsApi } from '../Store/api';
-import pagesReducer from '../Store/Pagination/pageSlice';
+import { createRemixStub } from '@remix-run/testing';
 import { mockServer } from './mocks/mockServer';
+import { loader, MainPage } from '../routes/_index';
+import { isResponse } from '@remix-run/react/dist/data';
 
 mockServer();
-
-const mockPlanets: Planets[] = [
-  {
-    name: 'Tatooine',
-    climate: 'arid',
-    gravity: '1 standard',
-    population: '200000',
-  },
-];
-
-const renderWithRedux = (component: JSX.Element) => {
-  const store = configureStore({
-    reducer: {
-      planets: planetReducer,
-      pagesRed: pagesReducer,
-      [planetsApi.reducerPath]: planetsApi.reducer,
-    },
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(planetsApi.middleware),
-  });
-
-  return {
-    ...render(
-      <Provider store={store}>
-        <MemoryRouter>{component}</MemoryRouter>
-      </Provider>,
-    ),
-    store,
-  };
-};
 
 beforeAll(() => {
   global.URL.createObjectURL = vi.fn(() => 'mock-url');
@@ -51,12 +16,38 @@ afterAll(() => {
   global.URL.createObjectURL = URL.createObjectURL;
 });
 
+const arg = {
+  params: { id: 1 },
+  context: {},
+};
+const loaderResult = await loader(arg);
+console;
+const data =
+  loaderResult !== null && isResponse(loaderResult)
+    ? await loaderResult.json()
+    : {};
+
+vi.mock('@remix-run/react', async () => {
+  const actual = await vi.importActual('@remix-run/react');
+  return {
+    ...actual,
+    useLoaderData: () => data,
+  };
+});
+
 describe('Main Component Flyout', () => {
-  test('displays flyout with buttons when items are selected', () => {
-    renderWithRedux(<Main planets={mockPlanets} />);
+  test('displays flyout with buttons when items are selected', async () => {
+    const RemixStub = createRemixStub([
+      {
+        path: '/',
+        Component: () => <MainPage />,
+      },
+    ]);
+
+    render(<RemixStub initialEntries={['/']} />);
 
     expect(screen.queryByText(/items selected/i)).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole('checkbox'));
+    fireEvent.click(screen.getByTestId('flyout-0'));
     expect(screen.getByText('1 items selected')).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: /download/i }),
@@ -66,9 +57,17 @@ describe('Main Component Flyout', () => {
     ).toBeInTheDocument();
   });
 
-  test('clears selected items when "unselect all" is clicked', () => {
-    renderWithRedux(<Main planets={mockPlanets} />);
-    fireEvent.click(screen.getByRole('checkbox'));
+  test('clears selected items when "unselect all" is clicked', async () => {
+    const RemixStub = createRemixStub([
+      {
+        path: '/',
+        Component: () => <MainPage />,
+      },
+    ]);
+
+    render(<RemixStub />);
+
+    fireEvent.click(screen.getByTestId('flyout-0'));
     expect(screen.getByText('1 items selected')).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: /unselect all/i }));
     expect(screen.queryByText(/items selected/i)).not.toBeInTheDocument();
