@@ -5,6 +5,7 @@ import { createRemixStub } from '@remix-run/testing';
 import { mockServer } from './mocks/mockServer';
 import { loader, MainPage } from '../routes/_index';
 import { isResponse } from '@remix-run/react/dist/data';
+import { SelectedProvider } from '../SelectedContext/SelectedContext';
 
 mockServer();
 
@@ -40,7 +41,11 @@ describe('Main Component Flyout', () => {
     const RemixStub = createRemixStub([
       {
         path: '/',
-        Component: () => <MainPage />,
+        Component: () => (
+          <SelectedProvider>
+            <MainPage />
+          </SelectedProvider>
+        ),
       },
     ]);
 
@@ -61,7 +66,11 @@ describe('Main Component Flyout', () => {
     const RemixStub = createRemixStub([
       {
         path: '/',
-        Component: () => <MainPage />,
+        Component: () => (
+          <SelectedProvider>
+            <MainPage />
+          </SelectedProvider>
+        ),
       },
     ]);
 

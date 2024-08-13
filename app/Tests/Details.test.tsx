@@ -6,13 +6,18 @@ import planets from './mockPlanets.json';
 import Main from '../components/Main';
 
 import { createRemixStub } from '@remix-run/testing';
+import { SelectedProvider } from '../SelectedContext/SelectedContext';
 
 describe('Details component', () => {
   test('renders Details component when a planet is selected via Main component', async () => {
     const RemixStub = createRemixStub([
       {
         path: '/',
-        Component: () => <Main planets={planets} pageCount={1} />,
+        Component: () => (
+          <SelectedProvider>
+            <Main planets={planets} pageCount={1} />
+          </SelectedProvider>
+        ),
       },
     ]);
 
@@ -30,7 +35,7 @@ describe('Details component', () => {
     });
   });
 
-  test('renders Details component directly with RemixStub', async () => {
+  test('close to be in the document', async () => {
     const RemixStub = createRemixStub([
       {
         path: '/',

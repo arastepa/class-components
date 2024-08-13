@@ -3,6 +3,7 @@ import { describe, expect, test, vi } from 'vitest';
 import { createRemixStub } from '@remix-run/testing';
 import MainPage, { loader } from '../routes/page.$id';
 import { isResponse } from '@remix-run/react/dist/data';
+import { SelectedProvider } from '../SelectedContext/SelectedContext';
 
 const arg = {
   params: { id: 1 },
@@ -28,7 +29,11 @@ describe('Header', () => {
     const RemixStub = createRemixStub([
       {
         path: '/',
-        Component: () => <MainPage />,
+        Component: () => (
+          <SelectedProvider>
+            <MainPage />
+          </SelectedProvider>
+        ),
       },
     ]);
 
@@ -42,7 +47,11 @@ describe('Header', () => {
     const RemixStub = createRemixStub([
       {
         path: '/',
-        Component: () => <MainPage />,
+        Component: () => (
+          <SelectedProvider>
+            <MainPage />
+          </SelectedProvider>
+        ),
       },
     ]);
 

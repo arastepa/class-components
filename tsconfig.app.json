@@ -11,8 +11,5 @@
     "moduleResolution": "Bundler",
     "baseUrl": ".",
     "noEmit": true,
-    "paths": {
-      "~/*": ["./app/*"]
-    }
   }
 }
