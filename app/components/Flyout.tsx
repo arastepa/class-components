@@ -6,7 +6,6 @@ export const FlyOut = (props: {
   downloadUrl: string;
   onSetSelected: (planets: Planets[]) => void;
 }) => {
-  let x: any;
   return (
     <div className={styles.btns}>
       <p>{props.selected.length} items selected</p>
