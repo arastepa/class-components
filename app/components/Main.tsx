@@ -7,10 +7,11 @@ import { FlyOut } from './Flyout';
 import { useNavigate, useParams, useSearchParams } from '@remix-run/react';
 import { getPlanet } from '../Services/getPlanets';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
+import { useSelected } from '../SelectedContext/SelectedContext';
 
 const Main = (props: { planets: Planets[]; pageCount: number }) => {
   const [details, setDetails] = useState<PlanetDetails | null>(null);
-  const [selected, setSelected] = useState<Planets[]>([]);
+  const { selected, setSelected } = useSelected();
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();

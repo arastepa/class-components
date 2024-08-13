@@ -9,6 +9,7 @@ import { ThemeProvider } from './ThemeContext/ThemeContext';
 
 import { cssBundleHref } from '@remix-run/css-bundle';
 import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
+import { SelectedProvider } from './SelectedContext/SelectedContext';
 
 export const links: LinksFunction = () => {
   return [
@@ -38,7 +39,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 const App = () => {
   return (
     <ThemeProvider>
-      <Outlet />
+      <SelectedProvider>
+        <Outlet />
+      </SelectedProvider>
     </ThemeProvider>
   );
 };
