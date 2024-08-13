@@ -3,11 +3,16 @@ import { mockServer } from './mocks/mockServer';
 import { expect, test } from 'vitest';
 import MainPage from '../components/MainPage';
 import planets from './mockPlanets.json';
+import { SelectedProvider } from '../SelectedContext/SelectedContext';
 
 mockServer();
 
 test('updates displayed planets based on search input', async () => {
-  render(<MainPage planetsData={planets} pageCount={1} />);
+  render(
+    <SelectedProvider>
+      <MainPage planetsData={planets} pageCount={1} />
+    </SelectedProvider>,
+  );
 
   const searchInput = screen.getByTestId('search');
   fireEvent.change(searchInput, { target: { value: 'Tatooine' } });
@@ -18,7 +23,11 @@ test('updates displayed planets based on search input', async () => {
 });
 
 test('search input present', async () => {
-  render(<MainPage planetsData={planets} pageCount={1} />);
+  render(
+    <SelectedProvider>
+      <MainPage planetsData={planets} pageCount={1} />
+    </SelectedProvider>,
+  );
 
   const searchInput = screen.getByTestId('search');
 
@@ -26,7 +35,11 @@ test('search input present', async () => {
 });
 
 test('toggles theme on button click', async () => {
-  render(<MainPage planetsData={planets} pageCount={1} />);
+  render(
+    <SelectedProvider>
+      <MainPage planetsData={planets} pageCount={1} />
+    </SelectedProvider>,
+  );
 
   expect(await screen.findByText('Switch to Dark Theme')).toBeInTheDocument();
   const btn = await screen.findByText('Switch to Dark Theme');

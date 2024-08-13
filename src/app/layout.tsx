@@ -1,6 +1,7 @@
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { ThemeProvider } from '../ThemeContext/ThemeContext';
 import '../Styles/globals.css';
+import { SelectedProvider } from '../SelectedContext/SelectedContext';
 
 export default function RootLayout({
   children,
@@ -11,7 +12,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ErrorBoundary>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <SelectedProvider>{children}</SelectedProvider>
+          </ThemeProvider>
         </ErrorBoundary>
       </body>
     </html>

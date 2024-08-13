@@ -16,6 +16,7 @@ export default defineConfig({
         'node_modules/',
         'dist',
         '.vite',
+        'src/Tests',
         'vite.config.ts',
         '.eslintrc.cjs',
         'src/vite-env.d.ts',

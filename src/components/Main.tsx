@@ -15,10 +15,11 @@ import {
 } from 'next/navigation';
 import { getPlanet } from '../Services/getPlanets';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
+import { useSelected } from '../SelectedContext/SelectedContext';
 
 const Main = (props: { planets: Planets[]; pageCount: number }) => {
   const [details, setDetails] = useState<PlanetDetails | null>(null);
-  const [selected, setSelected] = useState<Planets[]>([]);
+  const { selected, setSelected } = useSelected();
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const searchParams = useSearchParams();

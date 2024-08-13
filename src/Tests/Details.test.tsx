@@ -5,23 +5,27 @@ import { mockServer } from './mocks/mockServer';
 import './__mocks__/next-navigation';
 import Details from '../components/Details';
 import details from './mockPlanetDetails.json';
+import { SelectedProvider } from '../SelectedContext/SelectedContext';
 
 mockServer();
 
 describe('Details component', () => {
   test('renders Details component when a planet is selected', async () => {
     render(
-      <Main
-        planets={[
-          {
-            name: 'Tatooine',
-            climate: 'arid',
-            gravity: '1 standard',
-            population: '200000',
-          },
-        ]}
-        pageCount={1}
-      />,
+      <SelectedProvider>
+        <Main
+          planets={[
+            {
+              name: 'Tatooine',
+              climate: 'arid',
+              gravity: '1 standard',
+              population: '200000',
+            },
+          ]}
+          pageCount={1}
+        />
+        ,
+      </SelectedProvider>,
     );
 
     const planetItem = await screen.findByText('Name: Tatooine');
@@ -34,7 +38,7 @@ describe('Details component', () => {
       expect(screen.getByText('Terrain: desert')).toBeInTheDocument();
     });
   });
-  test('renders Details component when a planet is selected', async () => {
+  test('close to be in the document', async () => {
     render(<Details details={details} setDetails={vi.fn()} />);
 
     waitFor(async () => {
@@ -42,7 +46,7 @@ describe('Details component', () => {
       expect(close).toBeInTheDocument();
     });
   });
-  test('renders Details component when a planet is selected', async () => {
+  test('component closes', async () => {
     render(<Details details={details} setDetails={vi.fn()} />);
 
     waitFor(async () => {
