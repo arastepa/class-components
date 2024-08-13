@@ -20,7 +20,6 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import Header from '../components/Header';
 import ErrorBtn from '../ErrorBoundary/ErrorBtn';
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
     const { id } = context.query;

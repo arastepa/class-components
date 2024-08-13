@@ -20,6 +20,7 @@ export default defineConfig({
         '.eslintrc.cjs',
         'src/vite-env.d.ts',
         '**/*.test.{js,jsx,ts,tsx}',
+        'src/Tests',
         '.next/',
         'next-env.d.ts',
         'next.config.js',
