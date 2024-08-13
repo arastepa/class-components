@@ -61,7 +61,7 @@ export const MainPage = () => {
         {navigation.state === 'loading' ? (
           <div className={styles.spinner}></div>
         ) : (
-          <div>
+          <>
             <div className={styles.btns}>
               <ErrorBtn />
               <button className={styles.switch} onClick={toggleTheme}>
@@ -71,7 +71,7 @@ export const MainPage = () => {
             <Search onGetResponse={getResponse} onSetPlanets={setPlanets} />
             <hr />
             <Main planets={planets} pageCount={pageCount} />
-          </div>
+          </>
         )}
       </div>
     </ErrorBoundary>

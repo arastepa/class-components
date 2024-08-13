@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../app/Styles/app.module.css"],
+  "sourcesContent": ["export default {\"container\":\"app-module__container__uWkM8\",\"input\":\"app-module__input__rqSGu\",\"search\":\"app-module__search__nrczy\",\"title\":\"app-module__title__tckYM\",\"main\":\"app-module__main__ewN8b\",\"mainContainer\":\"app-module__mainContainer__A67ip\",\"detailsMain\":\"app-module__detailsMain__IyNeW\",\"details\":\"app-module__details__YIOMc\",\"pageNumber\":\"app-module__pageNumber__brbb0\",\"active\":\"app-module__active__nqt-Y\",\"errorBtn\":\"app-module__errorBtn__o4IKK\",\"errorBoundary\":\"app-module__errorBoundary__vbpHW\",\"spinner\":\"app-module__spinner__ilxLW\",\"spin\":\"app-module__spin__sC7XO\",\"header\":\"app-module__header__9p9fY\",\"errorPage\":\"app-module__errorPage__WVbQg\",\"pages\":\"app-module__pages__UkK7-\",\"checkboxes-list\":\"app-module__checkboxes-list__07642\",\"btns\":\"app-module__btns__a-1DS\",\"lightTheme\":\"app-module__lightTheme__9-arQ\",\"darkTheme\":\"app-module__darkTheme__TSZl-\",\"download\":\"app-module__download__5lDRv\"};"],
+  "mappings": ";AAAA,IAAO,qBAAQ,EAAC,aAAY,gCAA+B,SAAQ,4BAA2B,UAAS,6BAA4B,SAAQ,4BAA2B,QAAO,2BAA0B,iBAAgB,oCAAmC,eAAc,kCAAiC,WAAU,8BAA6B,cAAa,iCAAgC,UAAS,6BAA4B,YAAW,+BAA8B,iBAAgB,oCAAmC,WAAU,8BAA6B,QAAO,2BAA0B,UAAS,6BAA4B,aAAY,gCAA+B,SAAQ,4BAA2B,mBAAkB,sCAAqC,QAAO,2BAA0B,cAAa,iCAAgC,aAAY,gCAA+B,YAAW,8BAA6B;",
+  "names": []
+}

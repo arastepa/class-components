@@ -9,7 +9,7 @@ import { Planets } from '../Types/appTypes';
 import Header from '../components/Header';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useNavigation } from '@remix-run/react';
 
 export const loader = async ({ params }) => {
   const id = params.id;
@@ -25,6 +25,7 @@ export const MainPage = () => {
     planetsData: Planets[];
     pageNum: number;
   }>();
+  const navigation = useNavigation();
   const [pageCount, setPageCount] = useState(pageNum);
   const [planets, setPlanets] = useState(planetsData);
   const { theme, setTheme } = useContext(ThemeContext);
@@ -57,15 +58,21 @@ export const MainPage = () => {
     <ErrorBoundary>
       <div className={styles.container}>
         <Header />
-        <div className={styles.btns}>
-          <ErrorBtn />
-          <button className={styles.switch} onClick={toggleTheme}>
-            {`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Theme`}
-          </button>
-        </div>
-        <Search onGetResponse={getResponse} onSetPlanets={setPlanets} />
-        <hr />
-        <Main planets={planets} pageCount={pageCount} />
+        {navigation.state === 'loading' ? (
+          <div className={styles.spinner}></div>
+        ) : (
+          <>
+            <div className={styles.btns}>
+              <ErrorBtn />
+              <button className={styles.switch} onClick={toggleTheme}>
+                {`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Theme`}
+              </button>
+            </div>
+            <Search onGetResponse={getResponse} onSetPlanets={setPlanets} />
+            <hr />
+            <Main planets={planets} pageCount={pageCount} />
+          </>
+        )}
       </div>
     </ErrorBoundary>
   );
