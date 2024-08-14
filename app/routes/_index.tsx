@@ -26,8 +26,8 @@ export const MainPage = () => {
     pageNum: number;
   }>();
   const navigation = useNavigation();
-  const [pageCount, setPageCount] = useState(pageNum);
-  const [planets, setPlanets] = useState(planetsData);
+  const [pageCount, setPageCount] = useState(null);
+  const [planets, setPlanets] = useState(null);
   const { theme, setTheme } = useContext(ThemeContext);
 
   const toggleTheme = () => {
@@ -70,7 +70,10 @@ export const MainPage = () => {
             </div>
             <Search onGetResponse={getResponse} onSetPlanets={setPlanets} />
             <hr />
-            <Main planets={planets} pageCount={pageCount} />
+            <Main
+              planets={planets ? planets : planetsData}
+              pageCount={pageCount ? pageCount : pageNum}
+            />
           </>
         )}
       </div>
