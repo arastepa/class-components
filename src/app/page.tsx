@@ -13,7 +13,7 @@ const getNumPage = async () => {
   return res;
 };
 
-export const Page = async (props: { params: { id: string } }) => {
+const Page = async (props: { params: { id: string } }) => {
   const id = props.params.id;
   const planetsData = await getPlanetsData(id ? id[0] : '1');
   const pageCount = await getNumPage();
