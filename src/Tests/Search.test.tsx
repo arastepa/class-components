@@ -40,26 +40,4 @@ describe('Search component', () => {
       expect(localStorage.getItem('previous')).toBe('Tatooine');
     });
   });
-
-  // test('retrieves value from local storage upon mounting', () => {
-  //   localStorage.setItem('previous', 'Alderaan');
-
-  //   const mockSetSearch = vi.fn();
-  //   const mockHandleSubmit = vi.fn();
-
-  //   const router = createMockRouter({ query: { id: '1' } });
-  //   renderWithProviders(
-  //     <RouterContext.Provider value={router}>
-  //       <Search
-  //         search=""
-  //         onHandleSubmit={mockHandleSubmit}
-  //         setSearch={mockSetSearch}
-  //       />
-  //       ,
-  //     </RouterContext.Provider>,
-  //   );
-
-  //   const input = screen.getByRole('textbox');
-  //   expect(input).toHaveValue('Alderaan');
-  // });
 });
