@@ -68,7 +68,7 @@ export const MainPage = () => {
                 {`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Theme`}
               </button>
             </div>
-            <Search onGetResponse={getResponse} onSetPlanets={setPlanets} />
+            <Search onGetResponse={getResponse} />
             <hr />
             <Main
               planets={planets ? planets : planetsData}
