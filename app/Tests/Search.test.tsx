@@ -19,17 +19,11 @@ describe('Search component', () => {
   test('saves entered value to local storage on Search button click', async () => {
     const mockHandleLS = useHandleLS();
     const mockOnGetResponse = vi.fn();
-    const mockOnSetPlanets = vi.fn();
 
     const RemixStub = createRemixStub([
       {
         path: '/',
-        Component: () => (
-          <Search
-            onGetResponse={mockOnGetResponse}
-            onSetPlanets={mockOnSetPlanets}
-          />
-        ),
+        Component: () => <Search onGetResponse={mockOnGetResponse} />,
       },
     ]);
 
@@ -52,17 +46,11 @@ describe('Search component', () => {
     localStorage.setItem('previous', 'Alderaan');
 
     const mockOnGetResponse = vi.fn();
-    const mockOnSetPlanets = vi.fn();
 
     const RemixStub = createRemixStub([
       {
         path: '/',
-        Component: () => (
-          <Search
-            onGetResponse={mockOnGetResponse}
-            onSetPlanets={mockOnSetPlanets}
-          />
-        ),
+        Component: () => <Search onGetResponse={mockOnGetResponse} />,
       },
     ]);
 
