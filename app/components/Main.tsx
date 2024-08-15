@@ -4,36 +4,31 @@ import PageNumbers from './PageNumbers';
 import { useContext, useEffect, useState } from 'react';
 import Details from './Details';
 import { FlyOut } from './Flyout';
-import { useNavigate, useParams, useSearchParams } from '@remix-run/react';
-import { getPlanet } from '../Services/getPlanets';
+import { useNavigate, useParams } from '@remix-run/react';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
 import { useSelected } from '../SelectedContext/SelectedContext';
 
-const Main = (props: { planets: Planets[]; pageCount: number }) => {
+const Main = (props: {
+  planets: Planets[];
+  pageCount: number;
+  details: PlanetDetails | null;
+}) => {
   const [details, setDetails] = useState<PlanetDetails | null>(null);
   const { selected, setSelected } = useSelected();
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const detail = searchParams.get('details');
-  const planetId = detail
-    ? (+(id ?? 1) - 1) * props.planets.length + +detail
-    : null;
   const { theme } = useContext(ThemeContext);
 
+  const planetDetails = props.details;
   useEffect(() => {
     setLoading(true);
-    if (detail && planetId) {
-      getPlanet(
-        `https://swapi.dev/api/planets/${(+(id ?? 1) - 1) * props.planets.length + +detail}`,
-      ).then((planet: PlanetDetails | null) => {
-        if (planet) setDetails(planet);
-        setLoading(false);
-      });
+    if (planetDetails) {
+      setDetails(planetDetails);
+      setLoading(false);
     }
     setLoading(false);
-  }, [props.planets.length, planetId, detail, id]);
+  }, [planetDetails]);
 
   const generateCSV = (data: Planets[]) => {
     const header = 'Name,Gravity,Population,Climate\n';
@@ -66,7 +61,9 @@ const Main = (props: { planets: Planets[]; pageCount: number }) => {
   };
 
   const handleOpen = (index: number) => {
-    navigate(`?details=${index + 1}`);
+    navigate(
+      `?details=${(+(id ?? 1) - 1) * props.planets.length + +(index + 1)}`,
+    );
   };
 
   return (

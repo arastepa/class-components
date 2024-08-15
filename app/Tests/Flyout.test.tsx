@@ -20,6 +20,7 @@ afterAll(() => {
 const arg = {
   params: { id: 1 },
   context: {},
+  request: new Request('http://localhost/'),
 };
 const loaderResult = await loader(arg);
 console;

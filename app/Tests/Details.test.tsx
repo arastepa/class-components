@@ -15,7 +15,7 @@ describe('Details component', () => {
         path: '/',
         Component: () => (
           <SelectedProvider>
-            <Main planets={planets} pageCount={1} />
+            <Main planets={planets} pageCount={1} details={null} />
           </SelectedProvider>
         ),
       },

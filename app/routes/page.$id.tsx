@@ -4,26 +4,32 @@ import Main from '../components/Main';
 import styles from '../Styles/app.module.css';
 import ErrorBtn from '../ErrorBoundary/ErrorBtn';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
-import { getPageCount, getPlanets } from '../Services/getPlanets';
-import { Planets } from '../Types/appTypes';
+import { getPageCount, getPlanet, getPlanets } from '../Services/getPlanets';
+import { PlanetDetails, Planets } from '../Types/appTypes';
 import Header from '../components/Header';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { json } from '@remix-run/node';
 import { useLoaderData, useNavigation } from '@remix-run/react';
 
-export const loader = async ({ params }) => {
+export const loader = async ({ params, request }) => {
   const id = params.id;
+  const url = new URL(request.url);
+  const planetId = url.searchParams.get('details');
+  let details: PlanetDetails | null = null;
+  if (planetId)
+    details = await getPlanet(`https://swapi.dev/api/planets/${planetId}`);
   const planetsData = await getPlanets(
     `https://swapi.dev/api/planets/?search=&page=${id ? id : 1}`,
   );
   const pageNum: number = await getPageCount();
-  return json({ planetsData, pageNum });
+  return json({ planetsData, pageNum, details });
 };
 
 export const MainPage = () => {
-  const { planetsData, pageNum } = useLoaderData<{
+  const { planetsData, pageNum, details } = useLoaderData<{
     planetsData: Planets[];
     pageNum: number;
+    details: PlanetDetails;
   }>();
   const navigation = useNavigation();
   const [pageCount, setPageCount] = useState(null);
@@ -71,6 +77,7 @@ export const MainPage = () => {
             <Search onGetResponse={getResponse} />
             <hr />
             <Main
+              details={details}
               planets={planets ? planets : planetsData}
               pageCount={pageCount ? pageCount : pageNum}
             />
