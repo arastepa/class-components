@@ -37,12 +37,6 @@ const MainPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const { data: resultData } = useGetPlanetsQuery(id === undefined ? 1 : +id);
-
-  const { data: prevSearchedData } = useGetPlanetQuery(
-    typeof window !== 'undefined'
-      ? localStorage.getItem('previous') || skipToken
-      : skipToken,
-  );
   const { data: searchedData } = useGetPlanetQuery(search ? search : skipToken);
   const searchedDataResult: Planets[] | undefined = useMemo(
     () =>
@@ -55,19 +49,6 @@ const MainPage = () => {
           }))
         : undefined,
     [searchedData],
-  );
-
-  const prevSearchedDataResult: Planets[] | undefined = useMemo(
-    () =>
-      prevSearchedData
-        ? prevSearchedData.results.map((planet: Planets) => ({
-            name: planet.name,
-            climate: planet.climate,
-            gravity: planet.gravity,
-            population: planet.population,
-          }))
-        : undefined,
-    [prevSearchedData],
   );
 
   const pageResult: Planets[] | undefined = useMemo(
@@ -87,7 +68,7 @@ const MainPage = () => {
       dispatch(setPlanets(pageResult));
       dispatch(setPageCount((resultData?.count ?? 0) / pageResult.length));
     }
-  }, [dispatch, pageResult, resultData, prevSearchedDataResult]);
+  }, [dispatch, pageResult, resultData]);
 
   const { theme, setTheme } = useContext(ThemeContext);
 
