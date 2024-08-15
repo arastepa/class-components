@@ -7,43 +7,33 @@ import { useContext, useEffect, useState } from 'react';
 import Details from './Details';
 import { FlyOut } from './Flyout';
 // import { useRouter } from 'next/router';
-import {
-  useParams,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from 'next/navigation';
-import { getPlanet } from '../Services/getPlanets';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
 import { useSelected } from '../SelectedContext/SelectedContext';
 
-const Main = (props: { planets: Planets[]; pageCount: number }) => {
+const Main = (props: {
+  details: PlanetDetails | null;
+  planets: Planets[];
+  pageCount: number;
+}) => {
   const [details, setDetails] = useState<PlanetDetails | null>(null);
   const { selected, setSelected } = useSelected();
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
-  const searchParams = useSearchParams();
-  const detail = searchParams.get('details');
-  const planetId = detail
-    ? (+(id ?? 1) - 1) * props.planets.length + +detail
-    : null;
   const pathname = usePathname();
   const router = useRouter();
   const params = useParams();
   const { theme } = useContext(ThemeContext);
 
+  const planetDetail = props.details;
   useEffect(() => {
     setLoading(true);
-    if (detail && planetId) {
-      getPlanet(
-        `https://swapi.dev/api/planets/${(+(id ?? 1) - 1) * props.planets.length + +detail}`,
-      ).then((planet: PlanetDetails | null) => {
-        if (planet) setDetails(planet);
-        setLoading(false);
-      });
+    if (planetDetail) {
+      setDetails(planetDetail);
+      setLoading(false);
     }
     setLoading(false);
-  }, [props.planets.length, planetId, detail, id]);
+  }, [planetDetail]);
 
   const generateCSV = (data: Planets[]) => {
     const header = 'Name,Gravity,Population,Climate\n';
@@ -77,9 +67,13 @@ const Main = (props: { planets: Planets[]; pageCount: number }) => {
 
   const handleOpen = (index: number) => {
     if (pathname.startsWith('/page')) {
-      router.push(`/page/${params.id}?details=${index + 1}`);
+      router.push(
+        `/page/${params.id}?details=${(+(id ?? 1) - 1) * props.planets.length + +(index + 1)}`,
+      );
     } else {
-      router.push(`/?details=${index + 1}`);
+      router.push(
+        `/?details=${(+(id ?? 1) - 1) * props.planets.length + +(index + 1)}`,
+      );
     }
   };
 

@@ -10,7 +10,7 @@ mockServer();
 test('updates displayed planets based on search input', async () => {
   render(
     <SelectedProvider>
-      <MainPage planetsData={planets} pageCount={1} />
+      <MainPage planetsData={planets} pageCount={1} details={null} />
     </SelectedProvider>,
   );
 
@@ -25,7 +25,7 @@ test('updates displayed planets based on search input', async () => {
 test('search input present', async () => {
   render(
     <SelectedProvider>
-      <MainPage planetsData={planets} pageCount={1} />
+      <MainPage planetsData={planets} pageCount={1} details={null} />
     </SelectedProvider>,
   );
 
@@ -37,7 +37,7 @@ test('search input present', async () => {
 test('toggles theme on button click', async () => {
   render(
     <SelectedProvider>
-      <MainPage planetsData={planets} pageCount={1} />
+      <MainPage planetsData={planets} pageCount={1} details={null} />
     </SelectedProvider>,
   );
 

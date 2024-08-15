@@ -11,7 +11,7 @@ describe('PageNumbers component', () => {
   test('next present', async () => {
     render(
       <SelectedProvider>
-        <MainPage planetsData={planets} pageCount={1} />
+        <MainPage planetsData={planets} pageCount={1} details={null} />
       </SelectedProvider>,
     );
 
@@ -22,7 +22,7 @@ describe('PageNumbers component', () => {
   test('prev present', async () => {
     render(
       <SelectedProvider>
-        <MainPage planetsData={planets} pageCount={1} />
+        <MainPage planetsData={planets} pageCount={1} details={null} />
       </SelectedProvider>,
     );
 

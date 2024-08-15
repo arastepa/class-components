@@ -23,6 +23,7 @@ describe('Details component', () => {
             },
           ]}
           pageCount={1}
+          details={null}
         />
         ,
       </SelectedProvider>,

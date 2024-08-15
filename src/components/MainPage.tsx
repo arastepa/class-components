@@ -8,12 +8,13 @@ import ErrorBtn from '../ErrorBoundary/ErrorBtn';
 import React from 'react';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
 import { getPageCount, getPlanets } from '../Services/getPlanets';
-import { Planets } from '../Types/appTypes';
+import { PlanetDetails, Planets } from '../Types/appTypes';
 import Header from './Header';
 
 export const MainPage = (props: {
   planetsData: Planets[];
   pageCount: number;
+  details: PlanetDetails | null;
 }) => {
   const [pageCount, setPageCount] = useState(props.pageCount);
   const [planets, setPlanets] = useState(props.planetsData);
@@ -54,7 +55,7 @@ export const MainPage = (props: {
       </div>
       <Search onGetResponse={getResponse} />
       <hr />
-      <Main planets={planets} pageCount={pageCount} />
+      <Main details={props.details} planets={planets} pageCount={pageCount} />
     </div>
   );
 };

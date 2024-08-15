@@ -8,7 +8,7 @@ describe('Header', () => {
   test('renders header correctly', () => {
     render(
       <SelectedProvider>
-        <MainPage planetsData={planets} pageCount={1} />
+        <MainPage planetsData={planets} pageCount={1} details={null} />
       </SelectedProvider>,
     );
 
@@ -18,7 +18,7 @@ describe('Header', () => {
   test('renders header correctly', () => {
     render(
       <SelectedProvider>
-        <MainPage planetsData={planets} pageCount={1} />
+        <MainPage planetsData={planets} pageCount={1} details={null} />
       </SelectedProvider>,
     );
 

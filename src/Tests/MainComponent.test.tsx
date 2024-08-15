@@ -11,7 +11,7 @@ describe('Main component', () => {
   test('renders the specified number of cards', async () => {
     render(
       <SelectedProvider>
-        <MainPage planetsData={planets} pageCount={1} />
+        <MainPage planetsData={planets} pageCount={1} details={null} />
       </SelectedProvider>,
     );
 
@@ -24,7 +24,7 @@ describe('Main component', () => {
   test('renders the relevant card data', async () => {
     render(
       <SelectedProvider>
-        <MainPage planetsData={planets} pageCount={1} />
+        <MainPage planetsData={planets} pageCount={1} details={null} />
       </SelectedProvider>,
     );
 
