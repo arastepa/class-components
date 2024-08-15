@@ -23,9 +23,7 @@ const Main = (props: { planets: Planets[] }) => {
   const selected = useSelector((state: RootState) => state.planets.selected);
   const dispatch = useDispatch();
   const detail = searchParams.get('details');
-  const planetId = detail
-    ? (+(id ?? 1) - 1) * props.planets.length + +detail
-    : null;
+  const planetId = detail ? +detail : null;
   const {
     data: planetDetails,
     isLoading,
@@ -61,14 +59,18 @@ const Main = (props: { planets: Planets[] }) => {
 
   const handleOpen = (index: number) => {
     const { pathname } = router;
-    console.log('pp:', pathname);
     if (pathname.startsWith('/page')) {
       router.push({
         pathname: '/page/[id]',
-        query: { id: id, details: index + 1 },
+        query: {
+          id: id,
+          details: (+(id ?? 1) - 1) * props.planets.length + +(index + 1),
+        },
       });
     } else {
-      router.push(`/?details=${index + 1}`);
+      router.push(
+        `/?details=${(+(id ?? 1) - 1) * props.planets.length + +(index + 1)}`,
+      );
     }
   };
 

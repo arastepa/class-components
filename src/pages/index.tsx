@@ -22,7 +22,13 @@ import ErrorBtn from '../ErrorBoundary/ErrorBtn';
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
-    const { id } = context.query;
+    const { id, details } = context.query;
+    if (details)
+      store.dispatch(
+        planetsApi.endpoints.getPlanetDetail.initiate(
+          Array.isArray(details) && details.length ? +details[0] : +details,
+        ),
+      );
     store.dispatch(planetsApi.endpoints.getPlanets.initiate(id ? +id : 1));
     await Promise.all(store.dispatch(planetsApi.util.getRunningQueriesThunk()));
     return { props: {} };
