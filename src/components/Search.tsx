@@ -3,21 +3,18 @@
 import styles from '../Styles/app.module.css';
 import React, { useEffect, useState } from 'react';
 import useHandleLS from '../Hooks/useHandleLS';
-import { Planets } from '../Types/appTypes';
 
 interface SearchProps {
   onGetResponse: (value: string) => void;
-  onSetPlanets: (value: Planets[]) => void;
 }
 
 const Search = (props: SearchProps) => {
   const { setPrevSearch } = useHandleLS();
   const [search, setSearch] = useState('');
-  const setPlanets = props.onSetPlanets;
   useEffect(() => {
     const previous = localStorage.getItem('previous');
     if (previous) setSearch(previous);
-  }, [setPlanets]);
+  }, []);
   async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
     try {
@@ -37,11 +34,7 @@ const Search = (props: SearchProps) => {
         <form onSubmit={handleSubmit}>
           <input
             type="text"
-            defaultValue={
-              typeof window !== 'undefined'
-                ? (localStorage.getItem('previous') ?? '')
-                : ''
-            }
+            defaultValue={search}
             onChange={(val) => {
               handleChange(val.target.value);
             }}

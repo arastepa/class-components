@@ -18,14 +18,8 @@ describe('Search component', () => {
   test('saves entered value to local storage on Search button click', async () => {
     const mockHandleLS = useHandleLS();
     const mockOnGetResponse = vi.fn();
-    const mockOnSetPlanets = vi.fn();
 
-    render(
-      <Search
-        onGetResponse={mockOnGetResponse}
-        onSetPlanets={mockOnSetPlanets}
-      />,
-    );
+    render(<Search onGetResponse={mockOnGetResponse} />);
 
     const input = screen.getByRole('textbox');
     const searchButton = screen.getByRole('button', { name: /find/i });
@@ -44,14 +38,8 @@ describe('Search component', () => {
     localStorage.setItem('previous', 'Alderaan');
 
     const mockOnGetResponse = vi.fn();
-    const mockOnSetPlanets = vi.fn();
 
-    render(
-      <Search
-        onGetResponse={mockOnGetResponse}
-        onSetPlanets={mockOnSetPlanets}
-      />,
-    );
+    render(<Search onGetResponse={mockOnGetResponse} />);
 
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('Alderaan');
