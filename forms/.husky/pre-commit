@@ -1,1 +1,3 @@
-npm
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+cd ./forms && npx lint-staged 
