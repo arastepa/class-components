@@ -1,4 +1,4 @@
-const Controlled = () => {
+const HookForm = () => {
   const handleSubmit = () => {};
   return (
     <form onSubmit={handleSubmit}>
@@ -90,4 +90,4 @@ const Controlled = () => {
   );
 };
 
-export default Controlled;
+export default HookForm;

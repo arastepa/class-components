@@ -4,7 +4,7 @@ const Header = () => {
   return (
     <ul>
       <li>
-        <Link to="./controlled">controlled input</Link>
+        <Link to="./hookform">React Hook Form</Link>
       </li>
       <li>
         <Link to="./uncontrolled">uncontrolled input</Link>
