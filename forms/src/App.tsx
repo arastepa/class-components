@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
-import Main from './components/Main';
-import HookForm from './components/HookForm';
-import Uncontrolled from './components/Uncontrolled';
+import Main from './pages/Main';
+import HookForm from './pages/HookForm';
+import Uncontrolled from './pages/Uncontrolled';
 
 function App() {
   return (

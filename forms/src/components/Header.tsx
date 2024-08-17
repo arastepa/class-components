@@ -4,6 +4,9 @@ const Header = () => {
   return (
     <ul>
       <li>
+        <Link to="./">Main</Link>
+      </li>
+      <li>
         <Link to="./hookform">React Hook Form</Link>
       </li>
       <li>

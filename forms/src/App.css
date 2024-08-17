@@ -28,7 +28,8 @@ ul li {
 
   border: 2px solid white;
   height: 40px;
-  width:400px;
+  padding: 20px;
+  width: 300px;
   cursor: pointer;
   display: flex;
   justify-content: center;
