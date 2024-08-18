@@ -15,7 +15,7 @@ const Uncontrolled = () => {
   const gender = useRef<HTMLSelectElement>(null);
   const accept = useRef<HTMLInputElement>(null);
   const picture = useRef<HTMLInputElement>(null);
-  const country = useRef<HTMLSelectElement>(null);
+  const country = useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
   const [error, setError] = useState<string[]>([]);
@@ -151,11 +151,18 @@ const Uncontrolled = () => {
 
       <div>
         <label htmlFor="country">Country</label>
-        <select id="country" name="country" ref={country}>
-          <option value="">Select country</option>
-          <option value="Armenia">Armenia</option>
-          <option value="Georgie">Georgia</option>
-        </select>
+        <input
+          id="country"
+          ref={country}
+          name="country"
+          list="country-options"
+          placeholder="Select country"
+        />
+        <datalist id="country-options">
+          <option value="Armenia" />
+          <option value="Georgia" />
+          <option value="USA" />
+        </datalist>
       </div>
 
       <button type="submit">Submit</button>

@@ -123,15 +123,21 @@ const HookForm = () => {
           accept=".png, .jpeg, .jpg"
         />
       </div>
-
       <div>
         {errors?.country ? <p>{errors.country.message}</p> : ''}
         <label htmlFor="country">Country</label>
-        <select id="country" {...register('country')} name="country">
-          <option value="">Select country</option>
-          <option value="Armenia">Armenia</option>
-          <option value="Georgie">Georgia</option>
-        </select>
+        <input
+          id="country"
+          {...register('country')}
+          name="country"
+          list="country-options"
+          placeholder="Select country"
+        />
+        <datalist id="country-options">
+          <option value="Armenia" />
+          <option value="Georgia" />
+          <option value="USA" />
+        </datalist>
       </div>
 
       <button type="submit">Submit</button>
