@@ -6,9 +6,9 @@ const Main = () => {
   const storeData = useSelector((state: RootState) => state.formData);
   return (
     <div className={styles.main}>
-      {storeData.data.map((item) => {
+      {storeData.data.map((item, index, _arr) => {
         return (
-          <div>
+          <div className={index === _arr.length - 1 ? styles.last : ''}>
             <p>name {item.name}</p>
             <p>age {item.age}</p>
             <p>country {item.country}</p>
