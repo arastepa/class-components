@@ -1,0 +1,19 @@
+.main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    gap: 20px;
+}
+
+.main div {
+    border: 2px solid white;
+    text-align: justify;
+    padding: 20px;
+}
+
+.last {
+    border: 2px solid #4a3de5 !important;
+}
