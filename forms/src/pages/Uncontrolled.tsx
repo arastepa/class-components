@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { setFormData } from '../store/FormData/formDataSlice';
 import styles from './Uncontrolled.module.css';
+import { useNavigate } from 'react-router';
 
 const Uncontrolled = () => {
   const name = useRef<HTMLInputElement>(null);
@@ -16,6 +17,7 @@ const Uncontrolled = () => {
   const picture = useRef<HTMLInputElement>(null);
   const country = useRef<HTMLSelectElement>(null);
 
+  const navigate = useNavigate();
   const [error, setError] = useState<string[]>([]);
   const dispatch = useDispatch();
   const handleSubmit = async (ev: React.FormEvent<HTMLFormElement>) => {
@@ -45,7 +47,7 @@ const Uncontrolled = () => {
         };
       }
       setError([]);
-      alert('Form submitted successfully!');
+      navigate('/');
     } catch (err) {
       console.log(err);
       if (err instanceof Yup.ValidationError) {

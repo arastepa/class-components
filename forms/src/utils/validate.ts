@@ -34,18 +34,24 @@ export const validationSchema = Yup.object().shape({
     [true],
     'You must accept the terms and conditions.',
   ),
-  picture: Yup.mixed<File>()
+  picture: Yup.mixed<FileList>()
     .required('Picture is required.')
-    .test(
-      'fileSize',
-      'File is too large. Maximum size is 2MB.',
-      (value) => !value || (value && value.size <= 2097152),
-    )
+    .test('fileSize', 'File is too large. Maximum size is 2MB.', (value) => {
+      return (
+        !value ||
+        (value && value instanceof File
+          ? value.size <= 2097152
+          : value[0].size <= 2097152)
+      );
+    })
     .test(
       'fileFormat',
       'Unsupported format. Only PNG and JPEG are allowed.',
       (value) =>
-        !value || (value && ['image/png', 'image/jpeg'].includes(value.type)),
+        !value ||
+        (value && value instanceof File
+          ? ['image/png', 'image/jpeg'].includes(value.type)
+          : ['image/png', 'image/jpeg'].includes(value[0].type)),
     ),
   country: Yup.string().required('Country is required.'),
 });
