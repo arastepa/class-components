@@ -15,7 +15,7 @@ const Main = () => {
             <p>email {item.email}</p>
             <p>gender {item.gender}</p>
             <p>
-              <img src={item.picture} alt="" />
+              <img src={item.picture} alt="" width={110} height={100} />
             </p>
           </div>
         );

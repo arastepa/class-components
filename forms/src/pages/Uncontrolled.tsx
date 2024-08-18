@@ -155,6 +155,7 @@ const Uncontrolled = () => {
           id="country"
           ref={country}
           name="country"
+          autoComplete="off"
           list="country-options"
           placeholder="Select country"
         />

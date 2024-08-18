@@ -130,6 +130,7 @@ const HookForm = () => {
           id="country"
           {...register('country')}
           name="country"
+          autoComplete="off"
           list="country-options"
           placeholder="Select country"
         />
